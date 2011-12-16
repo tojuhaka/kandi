@@ -1,0 +1,27 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: kandi.aux
+White space in argument---line 51 of file kandi.aux
+ : \citation{Krasner[s.
+ :                      27]}
+I'm skipping whatever remains of this command
+White space in argument---line 54 of file kandi.aux
+ : \citation{Krasner[s.
+ :                      27]}
+I'm skipping whatever remains of this command
+White space in argument---line 69 of file kandi.aux
+ : \citation{Stack
+ :                 Trace}
+I'm skipping whatever remains of this command
+The style file: finplain.bst
+Database file #1: esim.bib
+Warning--I didn't find a database entry for "Krasner:desc"
+Warning--I didn't find a database entry for "Deacon:1995"
+Warning--I didn't find a database entry for "Burbeck"
+Warning--I didn't find a database entry for "Krasner"
+Warning--I didn't find a database entry for "Morse"
+Warning--I didn't find a database entry for "Reenskaug"
+Warning--I didn't find a database entry for "reenskaug:1979"
+Warning--I didn't find a database entry for "Krasner[s.29]"
+Warning--I didn't find a database entry for "Frameworks"
+Warning--I didn't find a database entry for "Pyramid:intr"
+Warning--I didn't find a database entry for "Web"
+(There were 3 error messages)

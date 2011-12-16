@@ -1,0 +1,249 @@
+\documentclass[finnish,utf8,nonumbib,palatino,kandi]{gradu2}
+\usepackage[pdftex]{graphicx}
+
+\makeatletter
+\ifgradu@pdf
+  \usepackage[pdftex,bookmarksopen,bookmarksnumbered]{hyperref}
+%\hypersetup{colorlinks,citecolor=blue}
+
+\else
+	\RequirePackage[hypertex]{hyperref}
+\fi
+\makeatother
+
+\title{Pyramid web-sovelluskehys ja MVC-arkkitehtuuri}
+\setauthor{Toni Juhani}{Haka-Risku}
+\yhteystiedot{tojuhaka@gmail.com}
+\translatedtitle{Pyramid-framework and MVC-architecture}
+\abstract{This is my english abstract}
+\tiivistelma{Toteutuuko MVC-arkkitehtuuri Pyramid-sovelluskehyksessä?}
+\keywords{P, NP, complexity theory}
+\avainsanat{P, NP, kompleksisuusteoria}
+
+\begin{document}
+\preface
+
+Tutkimuksen aiheen valintaan vaikutti työelämässä saatu
+ kokemus web-sovellusten kehittämisestä Python-ohjelmointikielellä. Erityisesti
+kokemusta on kertynyt Plone-sisällönhallintajärjestelmästä, josta myös Zope- sekä
+Grok-sovelluskehykset ovat tulleet tutuiksi. Kokemuksen kautta on myös herännyt mielenkiinto
+muita tarjolla olevia vaihtoehtoja kohtaan, joista tällä hetkellä uusin on Pyramid. Koska suurin osa Python-pohjaisista
+web-sovelluskehyksistä käyttää MVC-arkkitehtuuria, on mielenkiinto herännyt myös itse MVC-arkkitehtuuriin. Tästä syystä
+tutkimuksessa tarkastellaan MVC-arkkitehtuurin ja Pyramidin suhdetta toisiinsa.
+
+\mainmatter
+\section{Sanasto}
+
+\section{Johdanto}
+Toteutuuko MVC-arkkitehtuuri Pyramid-sovelluskehyksessä?
+
+\section{Tausta}
+MVC-arkkitehtuuri on hyvin vahvasti käytössä monissa sovelluksissa. Erityisesti web-sovelluskehyksissä
+se on hyvin laajalti käytössä. Jotkut sovelluskehykset kuitenkin esiintyvät "MVC-kehyksinä", mutta eivät 
+todellisuudessa toteuta täysin MVC-arkkitehtuuria sellaisena, kuin se alunperin olisi tarkoitettu. Näistä yleisimpiä sovelluskehyksiä ovat Python-pohjaiset
+ja erityisesti ZCA:n (Zope Component Architecture) omaavat kehykset, kuten esimerkiksi Pyramid ja Grok. Syy sille, miksi
+kyseiset sovelluskehykset eivät toteuta MVC:tä täysin, on konkreettisen \emph{ohjaimen(controller)} puute. Tällaisten
+sovelluskehysten kehittyessä pystytäänkin kyseenalaistamaan koko konkreettisen ohjaimen merkitys MVC-arkkitehtuurissa.
+herää kuitenkin kysymys siitä ovatko kyseiset sovelluskehykset MVC-kehyksiä vai eivät? Tämän tutkimuksen tarkoituksena on vastata edellä esitettyyn
+kysymykseen Pyramid-sovelluskehyksen näkökulmasta.
+
+\subsection{Aiheen rajaus}
+Tutkimuksessa käsiteltävä aihe on rajattu tarkastelemaan Pyramid-sovelluskehystä sekä MVC-arkkitehtuuria. Pyramid-sovelluskehystä
+tarkastellaan MVC:n näkökulmasta, joten muihin Pyramidissa käytetyihin tekniikoihin ei oteta kantaa. Tutkimuksessa
+selvitetään MVC-arkkitehtuurin sekä web-sovelluskehyksien taustat ennen varsinaista tutkimuskysymyksen käsittelyä. Pääpaino
+on kuitenkin MVC:ssä, koska sitä voidaan pohjata hyvin tieteelliseen lähdekirjallisuuteen. Koska tutkimuksen idea perustuu
+web-sovelluskehykseen, ei MVC-komponenttejen toteutusta käydä liian teknisesti läpi. Perusajatus kuitenkin komponenttejen suhteista, rakenteesta ja
+kommunikaatiosta tulee. MVC-arkkitehtuurin taustoja tutkiessa, toteutukset ohjelmointitasolla sidotaan tässä tutkimuksessa SmallTalk -ohjelmointikieleen. 
+Syy kielen valintaan löytyy MVC-arkkitehtuurin historiasta sekä lähekirjallisuuden tarjoamasta materiaalista. Esitellyt ratkaisut
+pätevät kuitenkin mihin tahansa muuhun ohjelmointikieleen, joten kielen valinnalla ei tässä tilanteessa ole merkitystä. \\
+
+Tutkimuksessa käytettyjä termejä ei selitetä erikseen tekstissä, vaan ne löytyvät tutkimuksen sanasto-osiosta.
+
+\section{Kirjallisuuskatsaus}
+Kirjallisuuskatsauksessa käydään läpi vaihe vaiheelta, miten lähdemateriaalia kerätään
+tutkimusta varten. Lähdemateriaalin haku toteutetaan hakukoneilla, jotka ovat tarkoitettu
+erityisesti tieteellisten artikkeleiden etsimiseen. Tässä tutkielmassa käytetyt hakukoneet ovat seuraavat:
+IEEE Xplore, ACM Digital Library, Google Scholar jne.(TODO: luettelo käytetyistä hakukoneista) Jokaista tutkimuksessa tutkittavaa
+tekniikkaa kohden tehdään erillinen kirjallisuuskatsaus. \\set enc=utf-8
+
+Aluksi muodostetaan kokonaiskuva tuloksista, jolloin silmäillään läpi saatuja artikkeleita. Tässä 
+vaiheessa tarkoitus ei ole vielä valita mitään pohjaksi tutkimukselle, vaan kerätä informaatiota
+siitä millainen lähdemateriaali on tarjolla kokonaisuudessaan. Saaduista tuloksista poimitaan artikkeleita,
+jotka sopivat tutkimuksen aihepiiriin.  \\
+
+Seuraavaksi artikkeleista valitaan pohjakirjallisuus tutkimukselle. Tässä vaiheessa artikkelit luetaan huolellisesti
+läpi ja varmistutaan siitä, että ne ovat tieteellisesti päteviä tutkimusta varten. Tutkimuksessa esiintyy myös
+satunnaisia viittauksia, joita ei ole kirjallisuuskatsauksessa mainittu. Tutkimuksen pääkirjallisuus kuitenkin käydään
+läpi kirjallisuuskatsauksessa. TODO: jatkuu\\
+
+Haussa käytetään seuraavia hakutermejä: "MVC" , "MVC Architecture" ja "MVC-Architecture".  Erityisesti
+artikkeleita löytyy MVC-arkkitehtuurin soveltamisesta erilaisissa tekniikoissa. Tarkasteltavat artikkelit rajataan
+kuitenkin niihin, jotka esittelevät suoraan MVC-arkkitehtuuria itseään.  \\
+
+Google Scholarin puolelta saaduista tuloksista löytyy kaksi artikkelia, jotka sopivat
+lähdemateriaaliksi tutkimukseen. Ensimmäinen artikkeleista on John Deaconin kirjoittama artikkeli, joka 
+tarkastelee lyhyesti MVC-arkkitehtuuria \cite{Deacon:1995}. Artikkeli on kuitenkin hyvin suppea, mutta
+selittää tiivistetysti MVC-arkkitehtuurin idean.  \\
+Toinen artikkeli on Steve Burbeckin kirjoittama, jossa esitellään MVC-arkkitehtuuria sellaisenaan kuin 
+sitä käytettiin SmallTalk-80 -rajapinnassa(TODO CHECK) \cite{Burbeck}. Burbeckin artikkeliin viitataan
+monissa MVC-arkkitehtuuria käsittelevissä julkaisuissa, joten sen arvo tämän tutkimuksen pohjakirjallisuudessa on vahva. \\
+Seuraavaksi kartoitetaan pohjakirjallisuutta käyttäen ACM Digital Library sekä IEEE XPlore -hakukoneita. Tuloksista löytyi Glenn E.
+Krasnerin kirjoittama julkaisu, missä opetetaan käyttämään MVC-arkkitehtuuria käyttäen Smalltalk-80 kieltä \cite{Krasner}. Julkaisu olettaa lukijan
+osaavan Smalltalk-80 kielen sekä siihen käytettävän ympäristön, mutta selittää kuitenkin selvästi MVC-arkkitehtuurin perustan. Samasta artikkelista
+löytyy myös toinen versio, joka ei sisällöltään juuri eroa, mutta selittää kuitenkin joitain asioita selkeämmin ja tiivistetymmin. \cite{Krasned:desc} Tuloksien joukosta
+löytyy myös paljon MVC-arkkitehtuuria soveltavia tutkimuksia, jotka eivät suoraan tarkastele MVC-arkkitehtuuria sellaisenaan. Näistä hyvä esimerkki on
+Oregonin Yliopistossa kirjoitettu artikkeli kurssista, jossa toteutetaan pienimuotoinen Java-ohjelma käyttäen MVC-Arkkitehtuuria \cite{Morse}. \\ 
+Monien MVC-arkkitehtuuria soveltavien artikkeleiden lähdeviitteistä löytyy viittauksia Burbeckin ja Krasnerin artikkeleihin. Tämän perusteella pystytään
+toteamaan kyseisten artikkeleiden olevan tieteellisesti päteviä ja tarjoavan kattavan lähdemateriaalin MVC-arkkitehtuurin pohjaksi. \\
+Lopulta Burbeckin ja Krasnerin kirjoittamien artikkeleiden taustalta löytyy MVC-Paradigman kehittäjä Trygve Reenskaug, jonka omia julkaisuja sekä kotisivujen MVC-osiota
+käytetään myös lähteenä tutkimuksessa \cite{Reenskaug}. 
+
+\section{Menetelmät}
+\subsection {Yleistä}
+- Tutkimusmenetelmän valinta\\
+- Miten tutkimusmenetelmää käytetään tutkimuksessa?\\
+- pitäisi määritellä, miten ominaisuuksia tarkastellaan?\\
+
+\subsection {Tutkimuksen rakenne}
+- Kerrotaan vaihe vaiheelta, miten tutkimuksessa edetään
+
+\section {MVC}
+MVC-arkkitehtuurin perusajatus on erottaa käyttöliittymä sovelluslogiikasta ja 
+näin tehdä sovelluksesta helposti ylläpidettävä kolmen eri komponentin avulla: 
+Malli(Model), Näkymä(View) ja Ohjain(Controller). Jokainen komponentti on 
+erikoistunut sovelluksessa johonkin tiettyyn tehtävään. Mallin tehtävänä on 
+hallita sovelluksen tilaa ja vastata sen käsittelemästä datasta ohjaimelle ja näkymälle.
+Näkymän tehtävänä on taas toteuttaa sovellukselle käyttöliittymä. Ohjaimen tarkoitus on ottaa
+vastaan syötteitä käyttäjältä käskien mallia ja näkymää muuttumaan tarvittaessa.  \\
+
+Jokaisella komponentilla on oma rajattu tehtävänsä ja ohjelmakoodi tulee jakaa näiden komponenttejen kesken. Jotta MVC-arkkitehtuuria pystytään käyttämään 
+tehokkaasti, tulee ymmärtää MVC:n komponenttejen työnjako sekä se kuinka komponentit kommunkoivat keskenään \cite{Burbeck}. \\ Luodessamme MVC-arkkitehtuurin
+toteuttavia komponentteja, tulee ne periä jostakin abstraktista pohjaluokasta(Model, View ja Controller), joka määrittelee kyseisen komponentin käyttäytymisen MVC-arkkitehtuurissa.  Tässä kappaleessa käydään jokainen pohjaluokka erikseen läpi \cite{Krasner:desc}. \\
+
+Yleisesti MVC-komponenttejen toimintaa kuvaavassa esimerkissä käyttäjältä tulee jokin syöte, jonka sillä hetkellä aktiivinen ohjain ottaa vastaan ja käskee mallia muuttamaan itseään. Malli puolestaan
+tekee sille määrättyjä operaatioita muuttaen tilaansa ja lähettää edelleen viestin muutoksestaan kaikille siihen kiinnitettyille riippuvuuksille (näkymät ja ohjaimet). Näkymät
+voivat tämän jälkeen kysyä mallilta sen nykyistä tilaa ja päivittää itsensä, jos siihen on tarvetta. Ohjaimet voivat myös muuttaa tilaansa riippuen mallin tilasta. \cite{Krasner:desc}
+\begin{figure}
+\centering
+\includegraphics[scale=0.85]{krasner_mvc.jpg}
+\caption{Model-View-Controller State and Message Sending \cite{Krasner:desc}}
+\end{figure}
+
+
+==== KUVA MVC-arkkitehtuurista ===
+
+\subsection{Historia}
+
+MVC:n esitteli Trygve Reenskaug käyttäessään Smalltalk -ohjelmointikieltä ollessaan
+mukana Xerox PARC -tutkimuskeskuksessa, joka keskittyy tutkimus- ja kehitystyöhön. Ensimmäinen julkaisu MVC:stä
+kirjoitettiin vuonna 1978 samassa tutkimuskeskuksessa. Tuolloin julkaisussa esiteltiin kolmen komponentin sijasta neljä
+komponenttia: malli(model), näkymä(View), ohjain(Controller) sekä muokkaaja(Editor). Muokkaaja on väliaikainen komponentti, jonka näkymä
+luo itsensä ja syötelaitteiden välille. Muokkaaja-komponentista kuitenkin luovuttiin käsitteenä ja se sisällytettiin näkymään ja ohjaimeen. \cite{Reenskaug}.
+Alkuperäinen Xerox PARC:n tuottama raportti MVC:stä oli Reenskaugin vuonna 1979 kirjoittama 'THING-MODEL-VIEW-EDITOR' \cite{reenskaug:1979}. Raportti 
+esitteli MVC-arkkitehtuurin komponentteja käyttäen hyväksi esimerkkejä Kreenskaugin omasta suunnittelutyöstä. Koska MVC:n historia ja suurin osa MVC:n
+alkuperäisistä julkaisuista pohjautuvat smalltalk-80 -ohjelmointikieleen, joudutaan väistämättä sitomaan MVC:n tarkastelua kyseiseen kieleen.  TODO: historia jatkuu \\
+
+\subsection{Malli (Class Model)}
+Malli pitää yllä sovelluksen tilaa sekä vastaa sovelluksen tallentamasta datasta. Se voi olla esimerkiksi kokonaislukumuuttuja laskurisovelluksessa, merkkijono-olio tekstinkäsittelyohjelmassa tai
+mikä tahansa monimutkainen olio \cite{Krasner}. Kaikkein yksinkertaisimmassa tapauksessa mallin ei tarvitse kommunikoida ollenkaan ohjaimen ja näkymän kanssa, vaan toimia passiivisena säiliönä datalle. 
+Tällaisesta tilanteesta on hyvä esimerkki yksinkertainen tekstieditori, jossa teksti nähdään juuri sellaisena, kuin se olisi paperilla. Tässä tapauksessa mallin ei tarvitse ei tarvitse ottaa vastuuta
+kommunikoinnista näkymälle, koska muutokset tekstiin tapahtuvat käyttäjän pyynnöstä. Tällöin ohjain ottaa vastaan käyttäjän syötteet ja voi esimerkiksi ilmoittaa näkymälle muutoksesta, jolloin näkymä
+päivittää mallin. Ohjain voi myös päivittää mallin ja ilmoittaa tästä näkymälle, jolloin näkymä voi pyytää mallin sen hetkistä tilaa. Kummassakaan tapauksesssa mallin ei tarvitse tietää ohjaimen ja näkymän
+olemassaolosta \cite{Burbeck}. \\
+
+Malli ei kuitenkaan aina voi olla täysin passiivinen. Se voi myös muuttua ilman, että se tarvitsee ohjaimen tai näkymän käskyä. Otetaan esimerkiksi malli, joka muuttaa tilaansa satunnaisin väliajoin ja näkymä joka näyttää mallin tilaa. Koska malli muuttaa itse itseään, täytyy sillä olla jokin yhteys näkymään, jotta se voi antaa tiedon muutoksestaan \cite{Burbeck}. Datan kapseloinnin ja ohjelmakoodin uudelleen käytön kannalta ei ole kuitenkaan järkevää, että malli on suoraan yhteydessä näkymään ja ohjaimeen. Ohjaimen ja näkymän tulee siis olla riippuvaisia mallista, mutta ei toisinpäin. Näin mahdollistetaan myös se, että mallilla voi olla useita näkymiä ja ohjaimia. \cite{Krasner[s. 27]} \\
+
+Yleensä mallin tila muuttuu ohjaimista tulleiden käskyjen kautta. Tämän muutoksen tulisi heijastua kaikkiin näkymiin, jotka ovat sidottu malliin. Tällaisia tilanteita varten kehitettiin riippuvuudet (Dependents).
+Riippuvuuksilla tarkoitetaan listaa niistä ohjaimista ja näkymistä, jotka ovat sidottuja malliin. Mallilla tulee siis olla lista riippuvuuksista ohjaimiin ja näkymiin sekä myös kyky lisätä ja poistaa niitä. Malli ei siis tiedä mitään yksittäisistä riippuvuuksista, mutta pystyy kuitenkin lähettämään itsestään muutosviestejä(change messages) listassa oleville ohjaimille ja näkymille. Mallin tuottamat muutosviestit voivat olla minkä tyyppisiä tahansa, joten ohjaimet ja näkymät reagoivat niihin omalla määritellyllä tavallaan  \cite{Krasner[s. 27]}. \\ Burbeck määritteleekin SmallTalk-80 -kielessä malleille pääluokan "Model" ja tälle viitemuuttujan "dependents", joka viittaa yhteen riippuvaan komponenttiin tai listaan riippuvista komponenteista. Kaikki uudet mallit tulee periä "Model" luokasta, jotta saavutetaan sama toiminnallisuus kaikkiin mallikomponentteihin. Komponenttejen tieto mallin muutoksista tukeutuu täysin mallin riippuvuusmekanismiin. Kun jokin komponentti luodaan, se rekisteröi itse itsensä malliin riippuvuudeksi ja samalla tavalla se myös poistaa itsensä \cite{Burbeck}.
+
+\subsection{Näkymä (Class View)}
+Näkymän tehtävänä on huolehtia graafisesta puolesta MVC-arkkitehtuurista. Näkymä pyytää yleensä mallilta datan ja tämän pohjalta näyttää käyttäjälle käyttöliittymän sovellukseen. Toisinkuin malli, jota pystytään rajoittamattomasti yhdistelemään moniin näkymiin ja ohjaimiin, jokainen näkymä on liitetty yhteen ohjaimeen.  Näkymä siis sisältää viitteen ohjaimeen ja taas ohjain sisältää viitteen näkymään. Kuten ohjain, näkymä on myös rekisteröity mallin riippuvuuksiin. Kummatkin sisältävät siis myös viitteen siihen malliin, johon ne on rekistereröity \cite{Burbeck}. Jokaisella näkymällä on tasan yksi malli ja yksi ohjain \cite{Krasner[s.29]}.  \\
+Näkymä vastaa myös MVC-komponenttejen sisäisestä kommunikaatiosta MVC-kolmikon luontivaiheessa.	Näkymä rekisteröi itsensä  riippuvuudeksi malliin, asettaa viitemuuttujansa viittamaan ohjaimeen ja välittää itsestään viestin ohjaimelle. Viestin avulla ohjain rekisteröi näkymän omaan viitemuuttujaansa. Näkymällä on myös vastuu poistaa viitteet sekä rekisteröinnit \cite{Burbeck}. \\
+Näkymä ei sisällä ainoastaan komponentteja datan näyttämiseen ruudulla vaan voi sisältää myös useita alanäkymiä(subviews) ja ylänäkymiä(superviews). Tästä muodostuu hierarkia, jossa ylänäkymä hoitaa aina jonkun suuremman kokonaisuuden, kuten esimerkiksi näytön pääikkunan. Alanäkymä taas huolehtii jostain pienemmästä yksityiskohdasta pääikkunassa. Näkymillä on myös viite erilliseen transformaatioluokkaan, joka hoitaa kuvan sovittamisen ja yhdistämisen alanäkymien ja ylänäkymien välillä. Jokaisella näkymällä tulee siis olla protokolla, joka hoittaa alanäkymien poistamisen sekä myös protokolla, jonka avulla näkymän sisäiset transformaatiot tuodaan transformaatioluokalle. Näkymille tarkoitetut viestit kulkevat tämän hierarkian läpi alkaen ylimmästä näkymästä ja päätyen sieltä johonkin alanäkymään, jolle viesti on tarkoitettu. \cite{Krasner:desc} 
+
+\subsection{Ohjain (Class Controller)}
+Ohjaimen tehtävänä on ottaa vastaan syötteitä sekä koordinoida malleja ja näkymiä saatujen syötteiden perusteella. Ohjaimen tehtävnä on myös huolehtia erilaisista ajastetuista toimenpisteistä. Ohjaimessa on kolme viitemuuttujaa: malli, näkymä ja sensori(sensor). Sensorin tehtävänä on toimia rajapintana syötelaitteiden sekä ohjaimen välillä. Sensori mallintaa syötelaitteiden käyttäytymistä ja muuttaa ne ohjaimen ymmärtämään muotoon. \\
+
+Ohjaimien tulee käyttytyä siten, että vain yksi ohjain ottaa vastaan syötteitä kerrallaan. Esimerkiksi näkymät pystyvät esittämään informaatiota rinnakkain monen näkymän kautta, mutta käyttäjän toimintoja tulkitsee aina vain yksi ohjain. Ohjain on siis määritelty käyttytymään siten, että se osaa tietyn signaalin perusteella päättää, tuleeko sen aktivoida itsensä vai ei. Ohjaimen tulee toteuttaa "isControlWanted" sekä "isControlActive" -viestit, jotka määrittävät ohjaimen aktivointikäyttytymisen. Viestit ovat yleisesti metodeja tai attribuutteja, jotka ylikirjoitetaan jokaista erilaista ohjainta kohden, jotta voidaan määrittää erilainen käyttyminen jokaiselle ohjaimelle. Alustetusti nämä kaksi viestiä käyttävät omina viesteinään "controlToNextLevel" ja "viewHasCursor" siten, että alimman näkymän omaava ohjain, jonka päällä sillä hetkellä kursori on, ottaa hallinnan.\\
+
+
+Kun ohjain on saanut hallinnan, tulee sen lähettää ilmoitus tästä viesteinä "controlInitialize", "controlLoop" ja "controlTerminate". Nämä viestit löytyvät 'startUp' -metodin alta, jota kutsutaan silloin, kun kontrolli saa hallinnan itselleen. Viestejen 'controlInitialize' ja 'controlTerminate' ylikirjoituksessa määritellään ohjain-komponentille käyttytyminen sen mukaan, miten halutaan aloittaa hallinta sekä luopua siitä. Vestin "controlLoop" tehtävänä on lähettää ohjaimesta "controlActivity" viestejä niin kauan, kun ohjaimella pysyy hallinta. Yleensä "controlActivity" viesti ylikirjoitetaan tekemään todellinen ohjaimen "työ". \cite{Krasner:desc}. 
+\section{Sovelluskehykset}
+
+\subsection{Tausta}
+
+\subsection{Pyramid}
+
+
+
+\section{Tulokset}
+- Lyhyesti tutkimuksen tulokset eri ominaisuuksien pohjalta
+
+
+---------------------------------------------------------------------------------
+Seuraavaksi tutkielmassa esitellään saadut tutkimustulokset, lyhyesti
+ja ytimekkäästi (mutta selkeästi).
+
+\section{Tarkastelu}
+\subsection{MVC ja Pyramid}
+- Onko minkään ominaisuuden kannalta parempi? \\
+- Tuovatko ominaisuudet Pyramidiin jotain ainutlaatuista?
+
+\section{Johtopäätökset}
+- Mitä voidaan päätellä tuloksista?
+------------------------------------------------------------------------------
+Lopuksi lyhyessä johtopäätösosassa kerrotaan tutkimuksen pihvi.
+
+
+\bibliographystyle{finplain} % tai joku muu, sovi ohjaajasi kanssa
+\bibliography{esim}
+
+\appendix
+
+\section{Ensimmäinen liite}
+
+\section{Toinen liite}
+
+
+\section{Lähteet}
+
+\begin{thebibliography}{9} % alle 10 lähdeteosta
+\bibitem{Deacon:1995}
+    John Deacon Computer Systems Development, Consulting \& Training
+    \emph{Model-View-Controller (MVC) Architecture},
+    August 1995, revised August 2000, April 2005 and May 2009
+\bibitem{Burbeck}
+   Burbeck, S.
+  \emph{“How to use Model-View-Controller (MVC)”,}
+  http://st-www.cs.illinois.edu/users/smarch/st-docs/mvc.html
+ 
+ \bibitem{Krasner}
+   Glenn E. Krasner \& Stephen T. Pope
+  \emph{“A Cookbook for Using the Model-View-Controller User Interface Paradigm in Smalltalk-80”,}
+http://www.ics.uci.edu/~redmiles/ics227-SQ04/papers/KrasnerPope88.pdf
+
+ \bibitem{Krasner:desc}
+   Glenn E. Krasner \& Stephen T. Pope
+  \emph{A Description of the Model-View-Controller User Interface Paradigm in the Smalltalk-80 System}
+   http://www.create.ucsb.edu/~stp/PostScript/mvc.pdf
+
+ \bibitem{Reenskaug}
+  XEROX PARC 1978-79
+  \emph{MVC XEROX PARC 1978-79}
+http://heim.ifi.uio.no/~trygver/themes/mvc/mvc-index.html
+
+ \bibitem{Reenskaug:1979}
+  XEROX PARC 1979
+  \emph{THING-MODEL-VIEW-EDITOR}
+   http://heim.ifi.uio.no/~trygver/1979/mvc-1/1979-05-MVC.pdf
+
+ \bibitem{Reenskaug:2007}
+  XEROX PARC 1979
+  \emph{The Original MVC reports}
+ http://heim.ifi.uio.no/~trygver/2007/MVC\_Originals.pdf
+
+ \bibitem{Morse}
+  \emph{Introducing application design and software engineering principles in introductory CS courses: model-view-controller Java application framework}
+\end{thebibliography}
+
+\end{document}

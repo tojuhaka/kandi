@@ -388,13 +388,15 @@ käydä läpi yksityiskohtaisemmin Pyramidin toteutusta ja siihen liitettäviss�
 
 \subsection{Tiedostorakenne}
 Kuten monissa web-sovelluskehyksissä, jaetaan sovelluslogiikka erillisiin tiedostoihin. Näin jokaisella ohjelmakoodilla on oma paikkansa ja sovelluksen hallinta kehityksen aikana helpottuu. Samalla
-sovelluskehys löytää tarvittavat asiat oikeista paikoista. Seuraavassa kuvassa esitellään yksinkertaisen web-sovelluksen rakenne Pyramidissa:
+sovelluskehys löytää tarvittavat asiat oikeista paikoista. Pyramid ei kuitenkaan pakota käyttämään tiettyä tiedostorakennetta. Esimerkiksi mallin ohjelma koodin ei tarvitse olla \emph{models.py} -tiedostossa, vaan sen:w
+
+voi määritellä myös muualla. Tässä tutkimuksessa käytämme kuitenki  tiedostorakennetta, joka generoidaan Scaffold työkalulla. TODO: VIITE SCAFFOLD. Seuraavassa kuvassa esitellään yksinkertaisen web-sovelluksen rakenne Pyramidissa:
 
 \Tree  [.Sovellus !\qsetw{0.6pt} [ kuva.png tyyli.css ].static  [ template.pt ].templates \_\_init\_\_.py views.py models.py ]
 
 Ilman tiedostopäätettä olevat lehdet ovat kansioita, jotka sisältävät muita tiedostoja. Tiedostot \emph{models.py}, \emph{views.py} ja \emph{\_\_init\_\_.py} ovat Python-moduuleita, jotka sisältävät
-sovelluksen ohjelmakoodin. Yksinkertaistettuna \emph{\_\_init\_\_ .py}:ssä yhdistetään URL:t ohjelmakoodin sekä sidotaan \emph{template} -tiedostot näkymiin. Pyramidissa näkymien ohjelmakoodi on määritelty views.py -tiedostossa ja 
-mallit luodaan \emph{models.py} -tiedostossa.  Kansion \emph{static} sisällä ovat kaikki staattiset resurssit, joita käytetään sovelluksessa. Staattisia resursseja voivat olla esimerkiksi kuva-, ääni- tai tyylitiedostot.
+sovelluksen ohjelmakoodin. Yksinkertaistettuna \emph{\_\_init\_\_ .py}:ssä yhdistetään URL:t ohjelmakoodin sekä sidotaan \emph{template} -tiedostot näkymiin. Pyramidissa näkymien ohjelmakoodi on yleensä määritelty views.py -tiedostossa ja 
+mallit luodaan \emph{models.py} -tiedostossa.   Kansion \emph{static} sisällä ovat kaikki staattiset resurssit, joita käytetään sovelluksessa. Staattisia resursseja voivat olla esimerkiksi kuva-, ääni- tai tyylitiedostot.
 Kansion \emph{templates} alta löytyvät kaikki \emph{template}-tiedostot, jotka määräävät sovelluksen näkymän selaimessa. Tässä tutkielmassa mielenkiinto on kuitenkin kohdistettu \emph{views.py}, \emph{models.py} ja \emph{template.pt}
 -tiedostoihin, koska ne sisältävät tarvittavat toteutukset MVC:n tarkasteluun.
 
@@ -415,34 +417,59 @@ mahdollisten lisäosien tuomien tekniikoiden tukiminen olisi lähes mahdotonta. 
 
 Pyramidin sovellusarkkitehtuuri on toteutettu käyttäen pohjana MVC-arkkitehtuurin ideaa. Tämä ei kuitenkaan tarkoita sitä, että Pyramid toteuttaisi MVC:n teknisesti sellaisena kuin esimerkiksi Krasner määrittelee \cite{Krasner:desc}. Teknisyydellä
 tarkoitetaan tässä kontekstissa tarkkoja MVC-komponenttejen kommunikointisääntöjä sekä ohjelmointiteknisiä ratkaisuja, kuten esimerkiksi abstraktejen yliluokkien toteutuksia. Web-ohjelmointi tuo itsessään jo rajoituksia MVC-komponenttejen kommunikaatiolle
-Pyramidissa. Esimerkiksi pyyntö(request) tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä. Tämä rajoittaa mallin viestimistä ohjaimelle ja näkymälle. Tästä syystä Pyramidin MVC-toteutusta ei tarkastella liian teknisestä näkökulmasta, vaan keskitytään korkeamman tason toteutukseen. 
-Tutkielman keskittyy tarkastelemaan erityisesti ohjaimen toteutusta Pyramidissa. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se toteutuu Pyramidissa. Samalla tutkitaan voidaanko Pyramid luokitella MVC-arkkitehtuuriksi tämän perusteella. 
+Pyramidissa. Esimerkiksi pyyntö(request) tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä. Tästä syystä Pyramidin MVC-toteutusta ei tarkastella liian teknisestä näkökulmasta, vaan
+tarkastelu toteutetaan korkeammalla tasolla. Erityisesti keskitytään tarkastelemaan ohjaimen toteutusta. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se toteutetaan Pyramidissa. Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi.
 
-\subsection{Päätelmät (TODO: Nimeä paremmin}
-
-
-Tässä osiossa tarkastellaan MVC:n kannalta kolmea oleellisinta tiedostoa Pyramidissa: \emph{views.py}, \emph{models.py} ja \emph{template.pt}. Tarkastelu toteutetaan luomalla samanalinen laskurisovellus kuin
-MVC-osiossa käyttäen hyväksi Pyramidin tarjoamaa arkkitehtuuria.:
-
-Tutkimuksen helpottamiseksi toteutetaan samanlainen laskurisovellus kuin tutkimuksen MVC-osiossa käyttäen
-hyvä  
+Tutkimuksessa toteutetaan Pyramidilla vastaava laskurisovellus kuin Krasnerin julkaisussa käyttäen Pyramidin tarjoamia ominaisuuksia \cite{Krasner:desc}. Sovellus rajataan käyttämään SQL-tietokantaa mallin datan tallennukseen sekä \emph{URL dispatch} -tekniikkaa \cite{urldispatch} ja SQL TODO: Viite sql. Sovelluksen pohjalta tarkastellaan MVC:n kannalta kolmea oleellisinta tiedostoa: \emph{views.py}, \emph{models.py} ja \emph{template.pt}. Näin tutkimuksen tarkastelu pystytään rajaamaan mahdollisimman pienelle alueelle, jolloin tutkimus on helpompi keskittää tarkastelemaan yksittäistä tekniikkaa. Samalla tutkimus pysyy myös kandityön rajoisssa. Kaikkea sovelluksen sisältämää ohjelmakoodia ei käydä läpi, vaan tiedostoista otetaan esiin vain MVC:n kannalta oleellisin ohjelmakoodi. 
 
 
+\subsection{Tiedostojen tarkastelu}
 
+\emph{Models.py} -tiedosto sisältää malliin liittyvän ohjelmakoodin. Jokaiselle mallille luodaan aina oma luokkansa, jossa määritellään mallin ominaisuudet. Malli rekisteröidään \emph{populate()} -metodin kautta, jota kutsutaan Pyramidin toimesta.
+Ohjelmakoodista nähdään, että malli ei luo minkäänlaista riippuvuutta näkymään tai ohjaimeen. Malli on siis Pyramidissa itsenäinen komponentti, joka huolehtii sovelluksen tilasta. Tämän perusteella malli toteutuu Pyramidissa MVC-arkkitehtuurin mukaisesti.
+\begin{lstlisting}[language=Python]
+# models.py
+class Counter(Base):
+    __tablename__ = 'counter'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(255), unique=True)
+    value = Column(Integer)
 
-tutkielmassa ei tarkastella MVC:tä liian tarkasti teknisen toteutuksen näkökulmasta, vaan keskitytään korkeamman tason toteutukseen. 
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
 
-malli ei voi kertoa muutoksestaan näkymälle, vaan näkymä pyytä aina mallilta datan. Tämä tapahtuu
+def populate():
+    session = DBSession()
+    model = Counter(name=u'counter', value=0)
+    session.add(model)
+\end{lstlisting} 
 
+\emph{Views.py}
+\begin{lstlisting}[language=Python]
+from tutorial.models import DBSession                                            
+from tutorial.models import Counter                                              
+                                                                                 
+def counter_view(request):                                                       
+    dbsession = DBSession()                                                      
+    counter = dbsession.query(Counter).filter(Counter.name==u'counter').first()  
+    try:                                                                         
+        request.params['minus'].                                                 
+        counter.value -= 1                                                       
+    except KeyError:                                                             
+        pass                                                                     
+                                                                                 
+    try:                                                                         
+        request.params['plus']                                                   
+        counter.value += 1                                                       
+    except KeyError:                                                             
+        pass                                                                     
+                                                                                 
+    return {'value': counter.value}   
+\end{lstlisting} 
 
- Web-ohjelmointitekniikat tuovat jo itsessään rajoitteita 
-sovelluskehyksessä toteutettujen MVC-komponenttejen kommunikoinnille. 
- 
-
-Näin tarkkoihin yksityiskohtiin ei kuitenkaan 
-
- Web-ohjelmointitekniikat tuovat jo itsessään rajoitteita 
-
+HUOM. YKSI NÄKYMÄ VOI KÄYTTÄÄ MONTAA MALLIA?!
+KERROTAAN SQLALCHEMY JA URL DISPATCH vaihtoehdosta
 
  Krasnerin toteuttama malli MVC:n käytöstä on sidottu yksittäiseen kieleen, joten ohjelmistoteknisiin yksityiskohtiin ei ole tutkielman kannalta järkevää kiinnittää liikaa huomiota.
 Tukielma keskittyykin
@@ -568,6 +595,15 @@ Irena Petrijevcanin Vuksanovic, Bojan Sudarevic
 \bibitem{Web}
 \emph{Research on Web Instant Messaging Using REST Web Service}
 http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=05607397
+
+\bibitem{Sqlalchemy}
+\emph{Sqlalchemy}
+www.sqlalchemy.org
+
+\bibitem{urldispatch}
+\emph{Pyramid Documentation, URL Dispatch}
+http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/urldispatch.html
+
 
 
 \end{thebibliography}

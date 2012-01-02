@@ -46,7 +46,6 @@ literate={:=}{{$\gets\ $}}2{^}{{$\uparrow$}}1{_}{{$\gets\ $}}2{ä}{{\"a}}2{ö}{{
 } 
 
 
-
 \begin{document}
 \preface
 
@@ -82,13 +81,12 @@ Tutkimuksessa käsiteltävä aihe on rajattu tarkastelemaan Pyramid-sovelluskehy
 tarkastellaan MVC:n näkökulmasta, joten muihin Pyramidissa käytetyihin tekniikoihin ei oteta kantaa. Pyramidiin on saatavana myös suuret määrät erilaisia lisäosia, joilla saadaan sovelluskehys muokattua tiettyyn tarkoitukseen. Lisäksi lisäosat pystytään toteuttamaan lähes mitä tahansa tekniikkaa käyttäen. Tämän takia on lähes mahdotonta tutkia MVC:n toteutusta kaikkien tekniikoiden näkökulmasta, joten tutkielmassa käsitellään ainoastaan Pyramidin alkuperäistä toteutusta huomioimatta lisäosia.
 
 Tutkimuksessa selvitetään MVC:n sekä web-sovelluskehyksien taustat ennen varsinaista tutkimuskysymyksen käsittelyä. Pääpaino
-on kuitenkin MVC:ssä, koska se voidaan pohjata hyvin tieteelliseen lähdekirjallisuuteen. MVC-arkkitehtuurin esimerkkitoteutukset ohjelmointitasolla sidotaan SmallTalk -ohjelmointikieleen. 
+on kuitenkin MVC:ssä, koska sitä voidaan pohjata hyvin tieteelliseen lähdekirjallisuuteen. Koska tutkimus perustuu
+selvittämään korkean tason web-sovelluskehyksen käyttytymistä MVC:n kontekstissa, ei MVC-komponenttejen toteutusta käydä liian teknisesti läpi. Perusajatus kuitenkin komponenttejen suhteista, rakenteesta ja
+kommunikaatiosta selvitetään. MVC-arkkitehtuurin toteutukset ohjelmointitasolla sidotaan SmallTalk -ohjelmointikieleen. 
 Syy kielen valintaan löytyy MVC-arkkitehtuurin historiasta sekä lähekirjallisuuden tarjoamasta materiaalista. Esitellyt ratkaisut
-pätevät kuitenkin mihin tahansa muuhun ohjelmointikieleen, joten kielen valinnalla ei tässä tilanteessa ole merkitystä. 
- MVC:n tarkastelu Pyramidissa toteutetaan Krasnerin julkaiseman artikkelin pohjalta, jossa käydään kattavasti läpi MVC:n käyttöä ohjelmakooditasolla \cite{Krasner:desc}.  \\
-
-Tutkimuksessa esitetyissä esimerkeissä oletetaan lukijalla olevan perus ohjelmointitaidot hallussa. Tutkimuksessa käytettyjä termejä ei selitetä erikseen tekstissä, vaan ne löytyvät tutkimuksen sanasto-osiosta.
-
+pätevät kuitenkin mihin tahansa muuhun ohjelmointikieleen, joten kielen valinnalla ei tässä tilanteessa ole merkitystä. \\
+Tutkimuksessa käytettyjä termejä ei selitetä erikseen tekstissä, vaan ne löytyvät tutkimuksen sanasto-osiosta.
 
 \section{Kirjallisuuskatsaus}
 Kirjallisuuskatsauksessa käydään läpi vaihe vaiheelta, miten lähdemateriaalia kerätään
@@ -151,7 +149,7 @@ toteuttavia komponentteja, tulee ne periä jostakin abstraktista pohjaluokasta(M
 
 Yleisesti MVC-komponenttejen toimintaa kuvaavassa esimerkissä käyttäjältä tulee jokin syöte, jonka sillä hetkellä aktiivinen ohjain ottaa vastaan ja käskee mallia muuttamaan itseään. Malli puolestaan
 tekee sille määrättyjä operaatioita muuttaen tilaansa ja lähettää edelleen viestin muutoksestaan kaikille siihen kiinnitettyille riippuvuuksille (näkymät ja ohjaimet). Näkymät
-voivat tämän jälkeen kysyä mallilta sen nykyistä tilaa ja päivittää itsensä, jos siihen on tarvetta. Ohjaimet voivat myös muuttaa tilaansa riippuen mallin tilasta \cite{Krasner:desc}.
+voivat tämän jälkeen kysyä mallilta sen nykyistä tilaa ja päivittää itsensä, jos siihen on tarvetta. Ohjaimet voivat myös muuttaa tilaansa riippuen mallin tilasta. \cite{Krasner:desc}
 
 \subsection{Historia}
 
@@ -411,92 +409,42 @@ Kansion \emph{templates} alta löytyvät kaikki \emph{template}-tiedostot, jotka
 
 
 \section{MVC \& Pyramid}
-Pyramidin kehittäjien dokumenteissa esitellään Pyramid MVC-kehyksenä, mutta samalla myös kyseenalaistetaan tämä väite. Samalla myös mainitaan MVC:n olevan huono malli web-ohjelmointiin\cite{Pyramid:intr}. Pyramidissa tämä näkyy konkreettisen ohjaimen puutteena.
+Pyramidin kehittäjien dokumenteissa esitellään Pyramid MVC-kehyksenä, mutta samalla myös kyseenalaistetaan tämä väite \cite{Pyramid:intr}. Erityisesti ongelman tuo konkreettisen ohjaimen puute.
 
 \subsection{Näkökulman rajaaminen}
 Tässä tutkielmassa keskitytään Pyramidin alkuperäiseen toteutukseen eikä lisäosien tarjoamiin erilaisiin tekniikoihin ja toteutuksiin oteta kantaa. Tämä on tutkielman kannalta tärkeää, koska kaikkien
-mahdollisten lisäosien tuomien tekniikoiden tutkiminen olisi lähes mahdotonta. Näin tutkielma pysyy myös kandidaatin tutkielman rajoissa.
+mahdollisten lisäosien tuomien tekniikoiden tukiminen olisi lähes mahdotonta. Näin tutkielma pysyy myös kandidaatin tutkielman rajoissa.
 
 Pyramidin sovellusarkkitehtuuri on toteutettu käyttäen pohjana MVC-arkkitehtuurin ideaa. Tämä ei kuitenkaan tarkoita sitä, että Pyramid toteuttaisi MVC:n teknisesti sellaisena kuin esimerkiksi Krasner määrittelee \cite{Krasner:desc}. Teknisyydellä
 tarkoitetaan tässä kontekstissa tarkkoja MVC-komponenttejen kommunikointisääntöjä sekä ohjelmointiteknisiä ratkaisuja, kuten esimerkiksi abstraktejen yliluokkien toteutuksia. Web-ohjelmointi tuo itsessään jo rajoituksia MVC-komponenttejen kommunikaatiolle
-Pyramidissa. Esimerkiksi pyyntö tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä toisinkuin MVC:ssä \cite{Krasner:desc}. Ohjelmointityökalujen määrän sekä vauhdikkaan kehityksen myötä tämä voidaan kuitenkin mahdollisesti kiertää tulevaisuudessa. Tästä syystä MVC-toteutusta ei ole järkevää tutkia liian teknisestä näkökulmasta, vaan toteutusta tarkastellaan korkeammalla tasolla. Tässä tutkielmassa oletetaan MVC:n olevan abstrakti malli ohjelmakoodin jakamiselle helposti hallittaviin osiin. Se kuinka tämä teknisesti toteutetaan ei ole tutkielman kannalta oleellista.
+Pyramidissa. Esimerkiksi pyyntö(request) tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä. Tästä syystä Pyramidin MVC-toteutusta ei tarkastella liian teknisestä näkökulmasta, vaan
+tarkastelu toteutetaan korkeammalla tasolla. Erityisesti keskitytään tarkastelemaan ohjaimen toteutusta. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se toteutetaan Pyramidissa. Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi.
 
 Tutkimuksessa toteutetaan Pyramidilla vastaava laskurisovellus kuin Krasnerin julkaisussa käyttäen Pyramidin tarjoamia ominaisuuksia \cite{Krasner:desc}. Sovellus rajataan käyttämään SQL-tietokantaa mallin datan tallennukseen sekä \emph{URL dispatch} -tekniikkaa \cite{urldispatch} ja SQL TODO: Viite sql. Sovelluksen pohjalta tarkastellaan MVC:n kannalta kolmea oleellisinta tiedostoa: \emph{views.py}, \emph{models.py} ja \emph{template.pt}. Näin tutkimuksen tarkastelu pystytään rajaamaan mahdollisimman pienelle alueelle, jolloin tutkimus on helpompi keskittää tarkastelemaan yksittäistä tekniikkaa. Samalla tutkimus pysyy myös kandityön rajoisssa. Kaikkea sovelluksen sisältämää ohjelmakoodia ei käydä läpi, vaan tiedostoista otetaan esiin vain MVC:n kannalta oleellisin ohjelmakoodi. 
 
-Tutkielma keskittyy tarkastelemaan ohjaimen toteutusta. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se toteutetaan Pyramidissa. Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi. Erityisesti tarkastelun kohteena on \emph{views.py} -tiedostossa toteutettu
-näkymän ohjelmakoodi, joka voidaan mahdollisesti tulkita ohjaimeksi.
 
 \subsection{Tiedostojen tarkastelu}
-\lstset{numbers=left}
+
+\emph{Models.py} -tiedosto sisältää malliin liittyvän ohjelmakoodin. Jokaiselle mallille luodaan aina oma luokkansa, jossa määritellään mallin ominaisuudet. Malli rekisteröidään \emph{populate()} -metodin kautta, jota kutsutaan Pyramidin toimesta.
+Ohjelmakoodista nähdään, että malli ei luo minkäänlaista riippuvuutta näkymään tai ohjaimeen. Malli on siis Pyramidissa itsenäinen komponentti, joten se toteuttaa MVC-arkkitehtuurissa
+mallin toiminnan. 
 \begin{lstlisting}[language=Python]
-# Tiedosto: models.py
+# models.py
 class Counter(Base):
     __tablename__ = 'counter'
-
-    # Asetetaan mallille atribuutit, jotka 
-    # vastaavat mallin tilasta.
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(255), unique=True)
     value = Column(Integer)
 
-    # M'a''a'ritell'a''a'n luokalle konstruktori,
-    # joka ottaa parametriksi nimen ja alkuarvon.
     def __init__(self, name, value):
         self.name = name
         self.value = value
 
-    def increment(self):
-        self.value += 1
-
-    def decrement(self):
-        self.value -= 1
-
-# Luodaan yksi instanssi mallista sovellukseen.
 def populate():
     session = DBSession()
     model = Counter(name=u'counter', value=0)
     session.add(model)
 \end{lstlisting} 
-
-\emph{Models.py} -tiedosto sisältää malliin liittyvän ohjelmakoodin. Jokaiselle mallille luodaan aina oma luokkansa, jossa määritellään mallin ominaisuudet. Malli rekisteröidään \emph{populate()} -metodin kautta, jota kutsutaan Pyramidin toimesta.
-Ohjelmakoodista nähdään, että malli ei luo minkäänlaista riippuvuutta näkymään tai ohjaimeen. Malli on siis Pyramidissa itsenäinen komponentti, joka huolehtii sovelluksen tilasta. Tämän perusteella malli toteutuu Pyramidissa MVC-arkkitehtuurin mukaisesti.
-Seuraavaksi käydään läpi \emph{views.py} -tiedoston ohjelmakoodi.
-
-\emph{Views.py} -tiedostossa määritellään näkymien ohjelmakoodi. Pyramidissa on konkreettisesti määritelty ohjelmakooditasolla vain malli ja näkymä. 
-Jokaista näkymää kohden on oma funktio, joka ottaa vastaan \emph{request} -olion. Request-oliossa tuodaan sovellukselle kaikki tarvittava tieto käyttäjästä. Tämän perusteella tulkitaan request-olio käyttäjän syötteiksi, jolloin se on suuressa roolissa MVC:n toteutuksessa. Vaikka funktio määritellään
-Pyramidissa näkymäksi, on se toteutukseltaan hyvin lähellä ohjainta. Tästä syystä tarkastellaan funktion toteutusta mahdollisena ohjaimena, mitä verrataan Krasnerin esittelemään ohjaimeen \cite{Krasner:desc}.
-
-\begin{lstlisting}[language=Python]                                          
-# Tiedosto: views.py
-@view_config(route_name='counter_view',
-		 renderer='templates/counter.pt')                                                                    
-def counter_view(request):                                                       
-    dbsession = DBSession()    
-
-    # Rekister'o'id'a''a'n malli.                                                  
-    counter = dbsession.query(Counter).filter(
-			Counter.name==u'counter').first()  
-    try:                                                                         
-        request.params['minus'].                                                 
-        counter.decrement()                                                 
-    except KeyError:                                                             
-        pass                                                                     
-                                                                                 
-    try:                                                                         
-        request.params['plus']                                                   
-        counter.increment()                                             
-    except KeyError:                                                             
-        pass                                                                     
-
-    # Palautetaan laskurin arvo, jotta se voidaan n'a'ytt'a''a' k'a'ytt'a'j'a'lle.                                                  
-    return {'value': counter.value}   
-\end{lstlisting} 
- 
-Määritellään funktiolle URL-osoite sekä template [x]. Tämän jälkeen rekisteröidään funktioon malli [x]. TODO: LINENUMBERS Koska tarkastelemme funktiota ohjaimena, voimme tulkita templaten näkymäksi. Tällöin funktioon rekisteröidään malli sekä näkymä, jolloin reskiteröinnin puolesta se toteuttaa ohjaimen MVC:ssä. 
-Funktioon lisätään myös toiminto laskurin vähentämiselle [x-x]. Mallin emph{value} -arvoa muutetaan, kun request-oliosta löytyy tietty parametri. Ohjelmakoodi ajetaan aina kun käyttäjä vierailee selaimellaan näkymälle tarkoitetussa osoitteessa, joka on tässä tapauksessa "http:\/\/domain\/counter\_view".
-Näkymän ohjelmakoodista nähdään, että funktio on lähempämä ohjainta kuin näkymää.
-
-
 
 
 HUOM. YKSI NÄKYMÄ VOI KÄYTTÄÄ MONTAA MALLIA?!

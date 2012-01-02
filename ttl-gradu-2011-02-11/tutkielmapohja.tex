@@ -1,0 +1,170 @@
+% TIETOTEKNIIKAN KANDIDAATINTUTKIELMA
+%
+% Yksinkertainen LaTeX2e-mallipohja kandidaatintutkielmalle.
+% Käyttää Antti-Juhani Kaijanahon ja Matthieu Weberin kirjoittamaa
+% gradu2-dokumenttiluokkaa.
+%
+% Laatinut Timo Männikkö
+%
+% Jos kirjoitat pro gradu -tutkielmaa, tee mallipohjaan seuraavat muutokset:
+%  - Poista dokumenttiluokasta optio shortthesis .
+%  - Poista makro \tyyppi .
+%  - Lisää suuntautumisvaihtoehto makrolla \linja .
+%  - Kirjoita ylimmän tason otsikot makrolla \chapter, toisen tason otsikot
+%    makrolla \section ja mahdolliset kolmannen tason otsikot makrolla
+%    \subsection .
+%
+% Halutessasi voit tehdä myös kandidaatintutkielman "pro gradu -tyylillä":
+%  - Poista shortthesis-optio.
+%  - Kirjoita otsikot makroilla \chapter , \section (ja \subsection ).
+
+\documentclass[finnish,nonumbib,nocopyright,shortthesis]{gradu2}
+
+\usepackage{palatino} % valitaan oletusfonttia hieman tyylikkäämpi fontti
+
+\usepackage[dvips]{graphicx} % tarvitaan vain, jos halutaan mukaan kuvia
+
+\title{Tutkielman otsikko}
+\translatedtitle{The Title of the Thesis}
+
+\setauthor{Timo}{Männikkö}
+\yhteystiedot{timo.mannikko@jyu.fi}
+
+\setdate{29}{8}{2008}
+
+\tiivistelma{Tähän tulee tutkielman tiivistelmä.}
+\abstract{Here comes the abstract of the thesis.}
+
+\avainsanat{tietotekniikka, kandidaatintutkielma}    % korvaa nämä oikeilla
+\keywords{information technology, Bachelor's thesis} % avainsanoilla
+
+\tyyppi{kandidaatintutkielma} % tämän makron oletus on "pro gradu -tutkielma"
+
+\begin{document}
+
+\mainmatter
+
+\section{Ensimmäinen luku}
+
+Ensimmäinen luku alkaa tästä.
+
+\section{Toinen luku} \label{lukuviite} % esimerkki sisäisestä viittauksesta
+
+Tämä on toinen luku, jossa on myös kaksi alalukua.
+
+\subsection{Ensimmäinen alaluku}
+
+Tämä on toisen luvun ensimmäinen alaluku. Tässä alaluvussa mainitaan kaikkien
+tuntema kaava $E=mc^2$.
+
+\subsection{Toinen alaluku}
+
+Tämä puolestaan on toisen luvun toinen alaluku. Mukana on sama kuuluisa kaava
+\begin{equation}
+  E = m c^2 , \label{kaavaviite}
+\end{equation}
+mutta tällä kertaa ns. näyttömatematiikkamoodissa. Kaavaan~(\ref{kaavaviite})
+on helppo viitata tarvittaessa.
+
+Tässä alaluvussa on myös joitain esimerkkejä viittauksista lähdeluetteloon:
+tieteellinen lehtiartikkeli~\cite{kirj2001},
+artikkeli kokoomateoksessa~\cite[luku~3]{kirjtoin2002},
+kirja tai raportti~\cite[s.~13--15]{kirjtoinkolm2003},
+verkkodokumentti~\cite{teki2004}.
+
+\section{Kolmas luku}
+
+Luvussa~\ref{lukuviite} esitettyjen kaavojen lisäksi tarvitaan usein
+taulukoita ja kuvia.
+
+\begin{table}[htp]
+\centering
+\caption{Taulukkoseloste.} \label{taulukkoviite}
+\bigskip
+\begin{tabular}{ccc} % sarakkeen tasaus: c=center, l=left, r=right
+\hline
+1 & 2 & 3 \\
+\hline
+yksi & kaksi & kolme \\
+ett & två & tre \\
+one & two & three \\
+\hline
+\end{tabular}
+\end{table}
+
+Taulukko~\ref{taulukkoviite} on hyvin yksinkertainen. Monimutkaisempiakin
+taulukoita voidaan tehdä, mutta sitä varten on syytä hankkia jokin
+\LaTeX{}-opas.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{plotexample} % kuvatiedoston nimi on plotexample.eps
+\caption{Kuvateksti.} \label{kuvaviite}
+\end{figure}
+
+Kuvat voi piirtää (melkein) millä tahansa ohjelmistolla. Esimerkiksi
+kuva~\ref{kuvaviite} on piirretty Unixin gnuplot-ohjelmalla. Tässä
+kuvatiedosto on EPS-formaatissa (Encapsulated PostScript). Muidenkin
+kuvaformaattien käyttö on mahdollista (katso yksityiskohdat jostain
+\LaTeX{}-oppaasta).
+
+\section{Neljäs luku}
+
+% HUOM: Tätä lukua ei ole tarkoitus lukea tästä lähdetiedostosta!
+% Tee LaTeX-käännös ja lue ruudulta tai paperilta.
+
+Huomaa myös seuraavat \LaTeX{}in ominaisuudet:
+
+\begin{itemize}
+
+\item ''Sitaatit merkitään aina kahdella heittomerkillä.'' Älä koskaan käytä
+"{}-merkkiä tähän tarkoitukseen!
+
+\item Yhdysviiva merkitään yhdellä miinus-merkillä (noita-akka), lukujen
+välit kahdella miinus-merkillä (sivut 5--10), ja ajatusviiva --- aivan oikein
+--- kolmella miinus-merkillä.
+
+\item Joillain merkeillä on \LaTeX{}issa erityismerkitys. Jos niitä haluaa
+käyttää tekstissä, ne täytyy kirjoittaa kenoviivan kanssa. Tällaisia merkkejä
+ovat \{, \}, \%, \$, \^{}, \_, \~{}, \# ja \&, jotka siis kirjoitetaan
+seuraavasti: \texttt{\textbackslash\{}, \texttt{\textbackslash\}},
+\texttt{\textbackslash\%}, \texttt{\textbackslash\$},
+\texttt{\textbackslash\^{}\{\}}, \texttt{\textbackslash\_},
+\texttt{\textbackslash\~{}\{\}}, \texttt{\textbackslash\#} ja
+\texttt{\textbackslash\&}. Kenoviiva puolestaan kirjoitetaan seuraavasti:
+\texttt{\textbackslash textbackslash}.
+
+\item Tarvittaessa \LaTeX{}ille voi antaa ta\-vu\-tus\-vih\-jei\-tä
+kirjoittamalla \texttt{\textbackslash-} sopiviin kohtiin.
+
+\end{itemize}
+
+\section{Yhteenveto}
+
+Siinä se! Ai niin, vielä lopuksi lähdeluettelo:
+
+\begin{thebibliography}{9} % numero aaltosuluissa kertoo, miten paljon
+                           % varataan tilaa viitenumerolle
+
+\bibitem{kirj2001}
+Kimmo Kirjoittaja, \textit{Artikkelin otsikko}, Lehden nimi,
+11 (2001), s.~12--45. % volume-numero, julkaisuvuosi, sivunumerot
+
+\bibitem{kirjtoin2002}
+Kimmo Kirjoittaja ja Torsti Toinenkirjoittaja, \textit{Artikkelin otsikko},
+kirjassa Kirjan otsikko, (Toivo Toimittaja, toim.), Mahdollinen lisätieto,
+Kustantaja, Paikkakunta, 2002, s.~123--456.
+
+\bibitem{kirjtoinkolm2003}
+Kimmo Kirjoittaja, Torsti Toinenkirjoittaja ja Konsta Kolmaskirjoittaja,
+\textit{Kirjan tai raportin otsikko}, Mahdollinen lisätieto,
+Kustantaja, Paikkakunta, 2003.
+
+\bibitem{teki2004}
+Teppo Tekijä, \textit{Sivun tai sivuston otsikko}, saatavilla WWW-muodossa
+<URL: \texttt{http://www.mit.jyu.fi/}>, 1.1.2004. % sivuston päiväys
+% TAI:                         viitattu 1.1.2004. % jos sivustoa ei päivätty
+
+\end{thebibliography}
+
+\end{document}

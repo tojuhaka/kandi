@@ -402,6 +402,7 @@ mallit luodaan \emph{models.py} -tiedostossa.   Kansion \emph{static} sisällä 
 Kansion \emph{templates} alta löytyvät kaikki \emph{template}-tiedostot, jotka määräävät sovelluksen näkymän selaimessa. Tässä tutkielmassa mielenkiinto on kuitenkin kohdistettu \emph{views.py}, \emph{models.py} ja \emph{template.pt}
 -tiedostoihin, koska ne sisältävät tarvittavat toteutukset MVC:n tarkasteluun.
 
+Alla on lyhyt selvitys tiedostojen sisällöstä:
 \begin{description}
 \item [views.py] \ URL:ien liittäminen ohjelmakoodiin. 
 \item[Template] \ Tuodaan sovelluksen näkymä selaimelle käyttäen HTML-kuvauskieltä (TODO: sanastoon), jolla määrätään näkymän rakenne. Tämän avulla pystytään erottamaan käyttöliittymä sovelluslogiikasta tehokkaasti.
@@ -420,14 +421,13 @@ mahdollisten lisäosien tuomien tekniikoiden tutkiminen olisi lähes mahdotonta.
 Pyramidin sovellusarkkitehtuuri on toteutettu käyttäen pohjana MVC-arkkitehtuurin ideaa. Tämä ei kuitenkaan tarkoita sitä, että Pyramid toteuttaisi MVC:n teknisesti sellaisena kuin esimerkiksi Krasner määrittelee \cite{Krasner:desc}. Teknisyydellä
 tarkoitetaan tässä kontekstissa tarkkoja ohjelmointiteknisiä ratkaisuja, jotka ovat sidottuja tiettyyn kieleen tai työkaluun. Web-ohjelmointi tuo itsessään jo rajoituksia MVC-komponenttejen kommunikaatiolle
 Pyramidissa. Esimerkiksi pyyntö tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä toisinkuin esimerkiksi Krasnerin määritelmässä \cite{Krasner}. Ohjelmointityökalujen määrän sekä vauhdikkaan kehityksen myötä tämä voidaan kuitenkin mahdollisesti kiertää tulevaisuudessa. Tästä syystä MVC-toteutusta ei ole tutkielman kannalta järkevää tutkia liian teknisestä näkökulmasta, vaan toteutusta tarkastellaan korkeammalla tasolla. Tässä osiossa oletetaan MVC:n olevan abstrakti malli ohjelmakoodin jakamiselle helposti hallittaviin osiin. Se kuinka tämä teknisesti toteutetaan ei ole tutkielman kannalta oleellista. 
-Koska MVC:n toteutusta Pyramidissa tarkastellaan abstraktilla tasolla, määritetään selkeät ominaisuudet, jotka MVC-komponenttien tulee toteuttaa. Jokaisen komponentin on toteutettava sille määrätyt ominaisuudet, jotta voidaan todeta sen kuuluvan osaksi MVC-arkkitehtuuria. Ominaisuudet määritellään käyttäen pohjana Burbeckin julkaisua\cite{Burbeck ["Basic Concepts"]}. 
+Koska MVC:n toteutusta Pyramidissa tarkastellaan abstraktilla tasolla, määritetään selkeät ominaisuudet, jotka MVC-komponenttien tulee toteuttaa. Jokaisen komponentin on toteutettava sille määrätyt ominaisuudet, jotta voidaan todeta sen kuuluvan osaksi MVC-arkkitehtuuria. Ominaisuudet määritellään käyttäen pohjana Burbeckin ja Krasnerin julkaisuja \cite{Burbeck ["Basic Concepts"]} \cite{Krasner:desc}.
 Mallin tulee olla riippumaton näkymästä ja ohjaimesta. Sen tulee myös hallita sovelluksen tilaa sekä pystyä antamaan informaatiota sovelluksen tilasta.
-Näkymä hoitaa kaiken graafisen mikä näytetään selaimessa. Sen tulee myös pystyä kommunikoimaan suoraan ohjaimelle sekä siihen rekisteröidylle mallille. Ohjain puolestaan ottaa vastaan syötteitä ja lähettää viestejä tämän perusteella näkymälle ja mallille. Näiden rajoituksien perusteella pystytään vastaamaan tutkimuksessa siihen, toteuttaako Pyramid MVC-arkkitehtuurin vai ei.
+Näkymä hoitaa kaiken graafisen mikä näytetään selaimessa. Sen on myös kommunikoitava mallin kanssa. Ohjain puolestaan ottaa vastaan syötteitä ja lähettää viestejä tämän perusteella näkymälle ja mallille. Näiden rajoituksien perusteella pystytään vastaamaan tutkimuksessa siihen, toteuttaako Pyramid MVC-arkkitehtuurin vai ei.
 
 Tarkastelua varten toteutetaan Pyramidilla vastaava laskurisovellus kuin Krasnerin julkaisussa käyttäen Pyramidin tarjoamia ominaisuuksia \cite{Krasner:desc}. Sovellus rajataan käyttämään SQL-tietokantaa mallin datan tallennukseen sekä \emph{URL dispatch} -tekniikkaa \cite{urldispatch} ja SQL TODO: Viite sql. Sovelluksen pohjalta tarkastellaan MVC:n kannalta kolmea oleellisinta tiedostoa: \emph{views.py}, \emph{models.py} ja \emph{template.pt}. Näin tutkimuksen tarkastelu pystytään rajaamaan mahdollisimman pienelle alueelle, jolloin tutkimus on helpompi keskittää tarkastelemaan yksittäistä tekniikkaa. Samalla tutkimus pysyy myös kandityön rajoisssa. Kaikkea sovelluksen sisältämää ohjelmakoodia ei käydä läpi, vaan tiedostoista otetaan esiin vain MVC:n kannalta oleellisin ohjelmakoodi.
 
-Tutkielma keskittyy tarkastelemaan ohjaimen toteutusta. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se toteutetaan Pyramidissa. Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi. Erityisesti tarkastelun kohteena on \emph{views.py} -tiedostossa toteutettu
-näkymän ohjelmakoodi, joka voidaan mahdollisesti tulkita ohjaimeksi. Template on tällöin mahdollista luokitella näkymäksi, josse toteuttaa näkymälle määrätyt ominaisuudet.
+Tässä osiossa tarkastellaan tiedosten sisältöjä MVC-komponentteina. Erityisesti keskitytään ohjaimen ja näkymän toeutukseen. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se on toteutettu.  Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi. Tarkastelussa oletetaan, että  \emph{models.py} sisältää mallin, \emph{views.py} ohjaimen ja \emph{template.pt} näkymän. 
 
 \subsection{Tiedostojen tarkastelu}
 \lstset{numbers=left}
@@ -462,7 +462,7 @@ def populate():
 \end{lstlisting} 
 
 \emph{Models.py} -tiedosto sisältää malliin liittyvän ohjelmakoodin. Jokaiselle mallille luodaan aina oma luokkansa, jossa määritellään mallin ominaisuudet. Malli rekisteröidään \emph{populate()} -metodin kautta, jota kutsutaan Pyramidin toimesta.
-Ohjelmakoodista nähdään, että malli ei luo minkäänlaista riippuvuutta näkymään tai ohjaimeen. Malli on siis Pyramidissa itsenäinen komponentti, joka huolehtii sovelluksen tilasta. Tämän perusteella malli toteutuu Pyramidissa MVC-arkkitehtuurin mukaisesti. \\
+Ohjelmakoodista nähdään, että malli ei luo minkäänlaista riippuvuutta näkymään tai ohjaimeen. Se myös pitää huolen datan käsittelystä.  Malli on siis Pyramidissa itsenäinen komponentti, joka huolehtii sovelluksen tilasta. Tämän perusteella malli toteutuu Pyramidissa MVC-arkkitehtuurin mukaisesti. \\
 
 
 \emph{Views.py} -tiedostossa määritellään näkymien ohjelmakoodi. Pyramidissa on konkreettisesti määritelty ohjelmakooditasolla vain malli ja näkymä. 
@@ -498,6 +498,8 @@ def counter_view(request):
 Määritellään funktiolle URL-osoite sekä template [x]. Tämän jälkeen rekisteröidään funktioon malli [x]. TODO: LINENUMBERS Koska tarkastelemme funktiota ohjaimena, voimme tulkita templaten näkymäksi. Tällöin funktioon rekisteröidään malli sekä näkymä, jolloin rekisteröinnin puolesta se toteuttaa ohjaimen MVC:ssä. 
 Funktioon lisätään myös toiminto laskurin vähentämiselle [x-x]. Mallin emph{value} -arvoa muutetaan, kun request-oliosta löytyy tietty parametri. Funktio palauttaa paluuarvona tiedot muutoksista, jotka käsitellään templatessa. Funktio siis ottaa vastaan syötteitä ja niiden perusteella lähettää lähettää viestejä
 mallille sekä näkymälle. Tämän perusteella todetaan, että se täyttää rajauksessa määrätyt ohjaimen ominaisuudet. \\
+
+Templatessa yhdistetään HTML-merkkauskieli ja sovelluksen ohjelmakoodi. Tästä generoidaan HTML-sivu, joka näytetään selaimelle. Koska malli sekä ohjain on jo määritelty, täytyy selvittää täyttääkö template näkymälle määritellyt ominaisuudet.  
 \begin{lstlisting}[language=Python]      
   <body>                                                                        
     <h1>${value}</h1>                                                           
@@ -507,55 +509,16 @@ mallille sekä näkymälle. Tämän perusteella todetaan, että se täyttää ra
     </form>                                                                     
   </body>  
 \end{lstlisting} 
+Sovelluksen templatessa luodaan lomake kahdelle painikkeelle, joista kumpikin lähettää lomakkeen eteenpäin \emph{counter\_view} -funktiolle. Lomakkeen tiedot tulevat \emph{counter\_view} -funktiolle request-oliossa, joka sisältää tässä tapauksessa \emph{plus} tai \emph{minus} parametrin riippuen siitä kumpaa painiketta on painettu. Otsikossa tuodaan näkyviin laskurin sen hetkinen arvo, joka saadaan tietoon ohjaimelta.
+ Templatessa hoidetaan sovelluksen graafinen puoli, joten se vastaa osaltaan näkymää. Ongelmaksi muodostuu kuitenkin näkymän ja mallin välinen kommunikointi. Näkymä ei ole yhteydessä malliin suoraan, vaan tarvitsee ohjaimen kautta tiedon mallin tilasta. Samalla syötteet ohjaimelle tulevat näkymän kautta. Tuolloin näkymä hoitaa myös osan syötteiden käsittelystä. Näkymä ei siis sellaisenaan toteuta sille asetettuja ominaisuuksia. 
 
+\subsection{Yhteenveto}
+Malli sekä ohjain toteutuvat Pyramidissa MVC:n mukaisesti. Malli (\emph{Counter}) on itsenäinen komponentti, jolla ei ole riippuvuutta näkymään tai ohjaimeen. Se myös huolehtii sovelluksen käsittelemästä datasta ja vastaa tarvittaviin pyyntöihin. Ohjain taas huolehtii request-oliossa tulevista syötteistä ja vaikuttaa malliin sekä näkymään.  Kumpikin edellä mainittu komponentti toteuttaa MVC:ssä sille tarkoitetun roolin. Tämä ei kuitenkaan riitä MVC:n toteuttamiseen.
+Näkymä toteuttaa sovelluksen graafisen näyttämisen selaimelle, mutta ei toteuta sille määrättyjä sääntöjä. MVC:ssä näkymän tarkoitus on kommunikoida suoraan mallin kanssa. Tämä ei kuitenkaan onnistu Pyramidissa, jossa näkymä on yhteydessä vain ohjaimeen. 
 
-
-
-
-
-
-HUOM. YKSI NÄKYMÄ VOI KÄYTTÄÄ MONTAA MALLIA?!
-KERROTAAN SQLALCHEMY JA URL DISPATCH vaihtoehdosta
-
- Krasnerin toteuttama malli MVC:n käytöstä on sidottu yksittäiseen kieleen, joten ohjelmistoteknisiin yksityiskohtiin ei ole tutkielman kannalta järkevää kiinnittää liikaa huomiota.
-Tukielma keskittyykin
- Kun tarkastelemme MVC:n toteutusta Pyramidissa, tulee tarkastelu
-
- Ohjelmistoarkkitehtuurin tarkastelu jossain tietyssä kontekstissa tuo paljon ongelmia. Erityisesti kokoajan muuttuvien ohjelmistotyökalujen myötä yksityiskohtainen
-tekninen tarkastelu on hyvin hankalaa. 
-
- Pintapuolisesti tarkasteltuna Pyramidissa toteutuu MVC hyvin pelkistetyllä tasolla. 
- Malli toteutetaan riippumattomana muista komponenteista ja samalla näkymä
-
-Tämä ei kuitenkaan tarkoita sitä, että Pyramid toteuttaisi MVC:tä juuri sellaisena kuin se Smalltalkissa on alunperin määritelty. Myös
-Pyramidin dokumentaatiossa kyseenalaistetaan 
-
-
-
-
- Web-kehitys
-itsessään tuo jo rajoitteita alkuperäisen MVC:n toteutukselle. Erityisesti 
-
-- Näkymä ei voi käskeä mallia muuttumaan, jos views.py määritellään ohjaimeksi. Taas jos ei määritellä nii sittten onnistuu, mutta taas silloin ei ole ohjainta
-- näkymä ei voi käskeä mallia, vaan joutuu tekemään sen aina "näkymä-metodin" kautta. Onko näkymä-metodi siis ohjaimen roolissa vai ei?
-- Näkymä/Controller joutuu aina kysymään mallilta datan
-- Asiakas-palvelin mallin takia ei onnistu
-- http protokollan lyhyt selvitys
-- web pohjaisen kehityksen luonne
-- MVC:n näkökulmasta mielenkiintoisin rakenne löytyy models.py ja views.py tiedostoista sekä template
-- Pyramid käyttää yhtä MVC-arkkitehtuurikomponenttia hoitamaan webbisovellusta
-- esimerkissä käytetään sqlalchemyn pohjalle tehtyä mallia
-- url dispatch
-- koska pyramid ei sido mihinkään erityiseen tekniikkaan, käytetään esimerkkinä sqlalchemy ja url dispatch
-- Esimerkki voitaisiin toteuttaa "hienommin" esimerkiksi ajaxilla, mutta tämä ei ole tukielman kannalta tärkeää. Vaikka
-asynkroninen toteutustapa on nätinpi, ei se silti mene sen lähemmäksi MVC:n alkuperäistä toteutusta. Tämä siksi,
-koska näkymä joutuu kuitenkin "pommittamaan" mallia. Mallin tulisi kertoa itsestään mutta se ei toimi.
-- MVC-arkkitehtuuria tarkastellaan suoraan pyramidin pohjalta, ei siis oteta kantaa esim javascriptin tuomiin 
-toteutuksiin.
-- Tutkitaan views.py:tä koska se on kaikkein mielenkiintoisin. Malli on hyvin selkeä, joten siihen ei tarvitse puuttuareq	u
-
-- TODETAAN ETTÄ EMME VOI TUTKIA YKSITYISKOHTAISIEN TEKNISTEN TOTEUTUKSIEN POHJALTA, KOSKA WEB-KEHitYS ON NIIN ERILAISTA. TARKASTELLAAN
-SIIS YLEISEMMÄLLÄ TASOLLA PYRAMIDIN MVC-TOTEUTUSTA. ELI SE KONTROLLERI PUUTTUU
+\section{Johtopäätökset}
+Tutkielman väittämässä MVC:n ohjainta ei ole. Tutkimuksesta kuitenkin näemme, että ohjain löytyy. Näkymä on ongelma, Kommunikaatio on ongelma. 
+PIIRROS PYRAMIDIN TOIMINNASTa.
 
 - keskitytään vain pyramidin coreen, joten jätetään kaikki ylimääräiset tekniikat pois
 
@@ -566,17 +529,7 @@ kuin kehittäjä itse haluaa.
 
 
 \section{Tulokset}
-- Lyhyesti tutkimuksen tulokset eri ominaisuuksien pohjalta
-
-
----------------------------------------------------------------------------------
-Seuraavaksi tutkielmassa esitellään saadut tutkimustulokset, lyhyesti
-ja ytimekkäästi (mutta selkeästi).
-
-\section{Tarkastelu}
-\subsection{MVC ja Pyramid}
-- Onko minkään ominaisuuden kannalta parempi? \\
-- Tuovatko ominaisuudet Pyramidiin jotain ainutlaatuista?
+- Lyhyesti tutkimu
 
 \section{Johtopäätökset}
 - Mitä voidaan päätellä tuloksista?

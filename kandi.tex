@@ -397,7 +397,7 @@ voi määritellä myös muualla. Tässä tutkimuksessa käytämme kuitenki  tied
 \Tree  [.Sovellus !\qsetw{0.6pt} [ kuva.png tyyli.css ].static  [ template.pt ].templates \_\_init\_\_.py views.py models.py ]
 
 Ilman tiedostopäätettä olevat lehdet ovat kansioita, jotka sisältävät muita tiedostoja. Tiedostot \emph{models.py}, \emph{views.py} ja \emph{\_\_init\_\_.py} ovat Python-moduuleita, jotka sisältävät
-sovelluksen ohjelmakoodin. Yksinkertaistettuna \emph{\_\_init\_\_ .py}:ssä yhdistetään URL:t ohjelmakoodin sekä sidotaan \emph{template} -tiedostot näkymiin. Pyramidissa näkymien ohjelmakoodi on yleensä määritelty views.py -tiedostossa ja 
+sovelluksen ohjelmakoodin. Yksinkertaistettuna \emph{\_\_init\_\_ .py}:ssä alustetaan sovellus. Pyramidissa näkymien ohjelmakoodi on yleensä määritelty views.py -tiedostossa ja 
 mallit luodaan \emph{models.py} -tiedostossa.   Kansion \emph{static} sisällä ovat kaikki staattiset resurssit, joita käytetään sovelluksessa. Staattisia resursseja voivat olla esimerkiksi kuva-, ääni- tai tyylitiedostot.
 Kansion \emph{templates} alta löytyvät kaikki \emph{template}-tiedostot, jotka määräävät sovelluksen näkymän selaimessa. Tässä tutkielmassa mielenkiinto on kuitenkin kohdistettu \emph{views.py}, \emph{models.py} ja \emph{template.pt}
 -tiedostoihin, koska ne sisältävät tarvittavat toteutukset MVC:n tarkasteluun.
@@ -412,22 +412,25 @@ Alla on lyhyt selvitys tiedostojen sisällöstä:
 
 
 \section{MVC \& Pyramid}
-Pyramidin kehittäjien dokumenteissa esitellään Pyramid MVC-kehyksenä, mutta samalla myös kyseenalaistetaan tämä väite. Samalla myös mainitaan MVC:n olevan huono malli web-ohjelmointiin\cite{Pyramid:intr}. Pyramidissa tämä näkyy konkreettisen ohjaimen puutteena.
+Pyramidin kehittäjien dokumenteissa esitellään Pyramid MVC-kehyksenä, mutta samalla myös kyseenalaistetaan tämä väite. Erityisesti mallin ja ohjaimen määritelmä puuttuu. Tässä
+osiossa käsitellään Pyramidia MVC:n näkökulmasta.  \cite{Pyramid:intr}
 
 \subsection{Näkökulman rajaaminen}
-Tässä tutkielmassa keskitytään Pyramidin alkuperäiseen toteutukseen eikä lisäosien tarjoamiin erilaisiin tekniikoihin ja toteutuksiin oteta kantaa. Tämä on tutkielman kannalta tärkeää, koska kaikkien
+Tutkielmassa keskitytään Pyramidin alkuperäiseen toteutukseen, joten lisäosien tarjoamiin erilaisiin tekniikoihin ja toteutuksiin oteta kantaa. Tämä on tutkielman kannalta tärkeää, koska kaikkien
 mahdollisten lisäosien tuomien tekniikoiden tutkiminen olisi lähes mahdotonta. Näin tutkielma pysyy myös kandidaatin tutkielman rajoissa.
 
 Pyramidin sovellusarkkitehtuuri on toteutettu käyttäen pohjana MVC-arkkitehtuurin ideaa. Tämä ei kuitenkaan tarkoita sitä, että Pyramid toteuttaisi MVC:n teknisesti sellaisena kuin esimerkiksi Krasner määrittelee \cite{Krasner:desc}. Teknisyydellä
 tarkoitetaan tässä kontekstissa tarkkoja ohjelmointiteknisiä ratkaisuja, jotka ovat sidottuja tiettyyn kieleen tai työkaluun. Web-ohjelmointi tuo itsessään jo rajoituksia MVC-komponenttejen kommunikaatiolle
 Pyramidissa. Esimerkiksi pyyntö tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä toisinkuin esimerkiksi Krasnerin määritelmässä \cite{Krasner}. Ohjelmointityökalujen määrän sekä vauhdikkaan kehityksen myötä tämä voidaan kuitenkin mahdollisesti kiertää tulevaisuudessa. Tästä syystä MVC-toteutusta ei ole tutkielman kannalta järkevää tutkia liian teknisestä näkökulmasta, vaan toteutusta tarkastellaan korkeammalla tasolla. Tässä osiossa oletetaan MVC:n olevan abstrakti malli ohjelmakoodin jakamiselle helposti hallittaviin osiin. Se kuinka tämä teknisesti toteutetaan ei ole tutkielman kannalta oleellista. 
 Koska MVC:n toteutusta Pyramidissa tarkastellaan abstraktilla tasolla, määritetään selkeät ominaisuudet, jotka MVC-komponenttien tulee toteuttaa. Jokaisen komponentin on toteutettava sille määrätyt ominaisuudet, jotta voidaan todeta sen kuuluvan osaksi MVC-arkkitehtuuria. Ominaisuudet määritellään käyttäen pohjana Burbeckin ja Krasnerin julkaisuja \cite{Burbeck ["Basic Concepts"]} \cite{Krasner:desc}.
-Mallin tulee olla riippumaton näkymästä ja ohjaimesta. Sen tulee myös hallita sovelluksen tilaa sekä pystyä antamaan informaatiota sovelluksen tilasta.
-Näkymä hoitaa kaiken graafisen mikä näytetään selaimessa. Sen on myös kommunikoitava mallin kanssa. Ohjain puolestaan ottaa vastaan syötteitä ja lähettää viestejä tämän perusteella näkymälle ja mallille. Näiden rajoituksien perusteella pystytään vastaamaan tutkimuksessa siihen, toteuttaako Pyramid MVC-arkkitehtuurin vai ei.
+Mallin tulee olla riippumaton näkymästä ja ohjaimesta. Sen tulee myös hallita sovelluksen tilaa sekä pystyä antamaan informaatiota sovelluksen tilasta \cite{Burbeck}.
+Näkymä hoitaa kaiken graafisen mikä näytetään selaimessa. Sen on myös kommunikoitava mallin kanssa \cite{Krasner:desc}. Ohjain puolestaan ottaa vastaan syötteitä ja lähettää viestejä tämän perusteella näkymälle ja mallille \cite{Burbeck}. Näiden rajoituksien perusteella pystytään vastaamaan tutkimuksessa siihen, toteuttaako Pyramid MVC-arkkitehtuurin vai ei.
 
 Tarkastelua varten toteutetaan Pyramidilla vastaava laskurisovellus kuin Krasnerin julkaisussa käyttäen Pyramidin tarjoamia ominaisuuksia \cite{Krasner:desc}. Sovellus rajataan käyttämään SQL-tietokantaa mallin datan tallennukseen sekä \emph{URL dispatch} -tekniikkaa \cite{urldispatch} ja SQL TODO: Viite sql. Sovelluksen pohjalta tarkastellaan MVC:n kannalta kolmea oleellisinta tiedostoa: \emph{views.py}, \emph{models.py} ja \emph{template.pt}. Näin tutkimuksen tarkastelu pystytään rajaamaan mahdollisimman pienelle alueelle, jolloin tutkimus on helpompi keskittää tarkastelemaan yksittäistä tekniikkaa. Samalla tutkimus pysyy myös kandityön rajoisssa. Kaikkea sovelluksen sisältämää ohjelmakoodia ei käydä läpi, vaan tiedostoista otetaan esiin vain MVC:n kannalta oleellisin ohjelmakoodi.
 
-Tässä osiossa tarkastellaan tiedosten sisältöjä MVC-komponentteina. Erityisesti keskitytään ohjaimen ja näkymän toeutukseen. Koska ohjainta ei ole konkreettisesti määritelty, selvitetään millä tavalla se on toteutettu.  Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi. Tarkastelussa oletetaan, että  \emph{models.py} sisältää mallin, \emph{views.py} ohjaimen ja \emph{template.pt} näkymän. 
+Tässä osiossa tarkastellaan tiedosten sisältöjä MVC-komponentteina. Erityisesti keskitytään ohjaimen ja näkymän toteukseen. Samalla tutkitaan voidaanko Pyramid tämän perusteella luokitella MVC:n toteuttavaksi sovelluskehykseksi. 
+Koska Pyramidissa MVC-arkkitehtuurin määrittely on hyvin epävakaalla pohjalla, tulee tehdä selkeä oletus komponenttejen jaottelulle. Esimerkiksi \emph{views.py} ja \emph{template.pt} -tiedostot on tarkoitettu toimimaan yhdessä näkymänä. Tiedosto \emph{views.py}
+sisältää kuitenkin niin paljon ohjaimelle yhteisiä piirteitä, joten se erottuu selvästi \emph{template.pt} -tiedostosta.  Tarkastelussa oletetaan, että  \emph{models.py} sisältää mallin, \emph{views.py} ohjaimen ja \emph{template.pt} näkymän. 
 
 \subsection{Tiedostojen tarkastelu}
 \lstset{numbers=left}
@@ -465,9 +468,9 @@ def populate():
 Ohjelmakoodista nähdään, että malli ei luo minkäänlaista riippuvuutta näkymään tai ohjaimeen. Se myös pitää huolen datan käsittelystä.  Malli on siis Pyramidissa itsenäinen komponentti, joka huolehtii sovelluksen tilasta. Tämän perusteella malli toteutuu Pyramidissa MVC-arkkitehtuurin mukaisesti. \\
 
 
-\emph{Views.py} -tiedostossa määritellään näkymien ohjelmakoodi. Pyramidissa on konkreettisesti määritelty ohjelmakooditasolla vain malli ja näkymä. 
-Jokaista näkymää kohden on oma funktio, joka ottaa vastaan \emph{request} -olion. Request-oliossa tuodaan sovellukselle kaikki tarvittava tieto käyttäjästä. Tämän perusteella tulkitaan request-olio käyttäjän syötteiksi, jolloin se on suuressa roolissa MVC:n toteutuksessa. Vaikka funktio määritellään
-Pyramidissa näkymäksi, on se toteutukseltaan hyvin lähellä ohjainta. Tästä syystä tarkastellaan funktion toteutusta mahdollisena ohjaimena Pyramidissa. 
+\emph{Views.py} -tiedostossa määritellään näkymän ohjelmakoodi. Pyramidissa on konkreettisesti määritelty ohjelmakooditasolla vain malli ja näkymä. 
+Jokaista näkymää kohden on oma funktio, joka ottaa vastaan \emph{request} -olion. Request-oliossa tuodaan sovellukselle kaikki tieto käyttäjästä ja sovelluksen viesteistä. Tämän perusteella tulkitaan request-oliossa tuotu data käyttäjän syötteiksi.
+Vaikka \emph{views.py} nimetään Pyramidissa näkymäksi, on se toteutukseltaan hyvin lähellä ohjainta. Tästä syystä tarkastellaan funktion toteutusta mahdollisena ohjaimena. Tästä eteenpäin puhutaessa ohjaimesta Pyramidissa, tarkoitetaan sillä \emph{views.py} -tiedoston sisältämää funktiota.
 
 \begin{lstlisting}[language=Python]                                          
 # Tiedosto: views.py
@@ -509,22 +512,26 @@ Templatessa yhdistetään HTML-merkkauskieli ja sovelluksen ohjelmakoodi. Täst�
     </form>                                                                     
   </body>  
 \end{lstlisting} 
-Sovelluksen templatessa luodaan lomake kahdelle painikkeelle, joista kumpikin lähettää lomakkeen eteenpäin \emph{counter\_view} -funktiolle. Lomakkeen tiedot tulevat \emph{counter\_view} -funktiolle request-oliossa, joka sisältää tässä tapauksessa \emph{plus} tai \emph{minus} parametrin riippuen siitä kumpaa painiketta on painettu. Otsikossa tuodaan näkyviin laskurin sen hetkinen arvo, joka saadaan tietoon ohjaimelta.
- Templatessa hoidetaan sovelluksen graafinen puoli, joten se vastaa osaltaan näkymää. Ongelmaksi muodostuu kuitenkin näkymän ja mallin välinen kommunikointi. Näkymä ei ole yhteydessä malliin suoraan, vaan tarvitsee ohjaimen kautta tiedon mallin tilasta. Samalla syötteet ohjaimelle tulevat näkymän kautta. Tuolloin näkymä hoitaa myös osan syötteiden käsittelystä. Näkymä ei siis sellaisenaan toteuta sille asetettuja ominaisuuksia. 
+Sovelluksen templatessa luodaan lomake kahdelle painikkeelle, joista kumpikin lähettää lomakkeen eteenpäin \emph{counter\_view} -funktiolle. Lomakkeen tiedot tulevat \emph{counter\_view} -funktiolle request-oliossa, joka sisältää tässä tapauksessa \emph{plus} tai \emph{minus} parametrin riippuen siitä kumpaa painiketta on painettu. Lomakkeen tiedot lähetetään samaan osoitteeseen, mistä sitä on alunperin kutsuttukin. Eron tuo kuitenkin request-oliossa tuodut parametrit.  Otsikossa tuodaan näkyviin laskurin sen hetkinen arvo, joka saadaan tietoon ohjaimelta.
+ Templatessa hoidetaan sovelluksen graafinen puoli, joten se vastaa osaltaan näkymää. \\ Ongelmaksi muodostuu kuitenkin näkymän ja mallin välinen kommunikointi. Näkymä ei ole yhteydessä malliin suoraan, vaan tarvitsee ohjaimen kautta tiedon mallin tilasta.  Näkymä ei siis sellaisenaan toteuta sille asetettuja ominaisuuksia. 
 
 \subsection{Yhteenveto}
 Malli sekä ohjain toteutuvat Pyramidissa MVC:n mukaisesti. Malli (\emph{Counter}) on itsenäinen komponentti, jolla ei ole riippuvuutta näkymään tai ohjaimeen. Se myös huolehtii sovelluksen käsittelemästä datasta ja vastaa tarvittaviin pyyntöihin. Ohjain taas huolehtii request-oliossa tulevista syötteistä ja vaikuttaa malliin sekä näkymään.  Kumpikin edellä mainittu komponentti toteuttaa MVC:ssä sille tarkoitetun roolin. Tämä ei kuitenkaan riitä MVC:n toteuttamiseen.
 Näkymä toteuttaa sovelluksen graafisen näyttämisen selaimelle, mutta ei toteuta sille määrättyjä sääntöjä. MVC:ssä näkymän tarkoitus on kommunikoida suoraan mallin kanssa. Tämä ei kuitenkaan onnistu Pyramidissa, jossa näkymä on yhteydessä vain ohjaimeen. 
 
 \section{Johtopäätökset}
-Tutkielman väittämässä MVC:n ohjainta ei ole. Tutkimuksesta kuitenkin näemme, että ohjain löytyy. Näkymä on ongelma, Kommunikaatio on ongelma. 
-PIIRROS PYRAMIDIN TOIMINNASTa.
+Pyramidin MVC-toteutusta tarkastellessa tulee ottaa huomioon yksittäisien komponenttejen toteutus sekä niiden välinen yhteistyö. Yksittäiset komponentit toteutuvat Pyramidissa MVC-arkkitehtuurin mukaisesti, mutta niiden välinen yhteistyö
+toteutetaan eri tavalla. Pyramidin MVC-komponenttejen kommunikointi voidaan esittää visuaalisesti kommunikaatiomallilla, jossa poistetaan osia Krasnerin alkuperäisestä mallista \cite{Krasner:desc}. 
+Alla esitellyssä kuvassa havainnollisestetaan, kuinka mallin ja näkymän kommunikaatio puuttuu täysin ja kaikki data tuodaan ohjaimen kautta.
 
-- keskitytään vain pyramidin coreen, joten jätetään kaikki ylimääräiset tekniikat pois
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.85]{pyramid_mvc.jpg}
+\caption{Pyramidin kommunikointi MVC-komponenttejen kesken. Kuva on muokattu Krasnerin esittelemästä kommunikointimallista.  }
+\end{figure}
 
-
- jota pystytään laajentamaan juuri sellaiseksi
-kuin kehittäjä itse haluaa. 
+Alunperin Pyramidin dokumentaatiossa kyseenalaistettiin mallin sekä ohjaimen toteutus \cite{Pyramid:intr}. Tutkimuksen pohjalta voidaan kuitenkin
+todeta, että ongelmaksi ei muodostu yksittäiset komponentit, vaan 
 
 
 

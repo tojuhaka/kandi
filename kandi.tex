@@ -19,10 +19,10 @@
 \setauthor{Toni Juhani}{Haka-Risku}
 \yhteystiedot{tojuhaka@gmail.com}
 \translatedtitle{Pyramid-framework and MVC-architecture}
-\abstract{This is my english abstract}
-\tiivistelma{Toteutuuko MVC-arkkitehtuuri Pyramid-sovelluskehyksessä?}
-\keywords{P, NP, complexity theory}
-\avainsanat{P, NP, kompleksisuusteoria}
+\abstract{English abstract}
+\tiivistelma{Millä tavalla MVC-arkkitehtuuri toteutuu Pyramid web-sovelluskehyksessä?}
+\keywords{Pyramid, MVC, Sovelluskehys, Python}
+\avainsanat{Pyramid, MVC, Framework, Python}
 
 \definecolor{light-gray}{gray}{0.96}
 
@@ -55,27 +55,26 @@ Tutkimuksen aiheen valintaan vaikutti työelämässä saatu
 kokemusta on kertynyt Plone-sisällönhallintajärjestelmästä, josta myös Zope- sekä
 Grok-sovelluskehykset ovat tulleet tutuiksi. Kokemuksen kautta on myös herännyt mielenkiinto
 muita tarjolla olevia vaihtoehtoja kohtaan, joista tällä hetkellä uusin on Pyramid. Koska suurin osa Python-pohjaisista
-web-sovelluskehyksistä käyttää MVC-arkkitehtuuria, on mielenkiinto herännyt myös itse MVC-arkkitehtuuriin. Tästä syystä
-tutkimuksessa tarkastellaan MVC-arkkitehtuurin ja Pyramidin suhdetta toisiinsa.
+web-sovelluskehyksistä käyttää MVC-arkkitehtuuria, on mielenkiinto herännyt myös itse MVC-arkkitehtuuriin. Tämä johti
+kandidaatintutkielman aiheeseen, jossa tarkastellaan MVC-arkkitehtuurin suhdetta Pyramid web-sovelluskehykseen.
 
 \mainmatter
 \section{Sanasto}
+TODO
 
 \section{Johdanto}
 Toteutuuko MVC-arkkitehtuuri Pyramid-sovelluskehyksessä?
 
 \section{Tausta}
-Rakentaessamme interaktiivisia sovelluksia, modulaarisilla komponenteilla on paljon etuja. Suunnittelemalla komponentit mahdollisimman erillään toisistaan, helpotetaan
-ohjelmistosuunnittelijaa ymmärtämään ohjelmakoodia. Samalla pystytään muuttamaan yksittäisiä komponentteja tietämättä muista komponententeista. \cite{Krasner:desc}.
+Rakentaessamme interaktiivisia sovelluksia, modulaarisilla komponenteilla on paljon etuja. Suunnittelemalla komponentit mahdollisimman erillään toisistaan helpotetaan
+sovelluksen ohjalmakoodin hallintaa. Samalla pystytään muuttamaan ohjelmakoodia ilman, että tarvitsee tuntea koko sovelluksen toteutusta \cite{Krasner:desc}.
 MVC-arkkitehtuuri on ohjelmistokehityksessä käytetty rakenne, joka määrää ohjelmakoodin jaottelun kolmeen osaan: Malli(model), Näkymä(view) ja Ohjain(controller). MVC on käytössä monissa sovelluksissa ja erityisesti se on saanut
 huomiota web-sovelluskehyksien toteutuksissa. Sovelluskehyksen tehtävänä on tuoda sovelluksen kehitykseen mukaan
-taso, joka tarjoaa erilaisia kirjastoja ratkaisemaan yleisimpiä ongelmia. Monet sovelluskehykset kuitenkin esiintyvät "MVC-kehyksinä" TODO: viite, mutta eivät 
-todellisuudessa toteuta täysin MVC-arkkitehtuuria sellaisena, kuin se alunperin olisi tarkoitettu. Näistä yleisimpiä sovelluskehyksiä ovat Python-pohjaiset
+taso, joka tarjoaa erilaisia kirjastoja ratkaisemaan yleisimpiä ongelmia. Monet Python sovelluskehykset kuitenkin luokitellaan MVC-sovelluskehyksiksi \cite{mvcframeworks}, mutta eivät 
+todellisuudessa toteuta täysin MVC-arkkitehtuuria sellaisena kuin se alunperin olisi tarkoitettu. Näistä yleisimpiä sovelluskehyksiä ovat Python-pohjaiset
 ja erityisesti ZCA:n (Zope Component Architecture) omaavat kehykset, kuten esimerkiksi Pyramid ja Grok. Syy sille, miksi
-kyseiset sovelluskehykset eivät toteuta MVC:tä täysin, on konkreettisen \emph{ohjaimen(controller)} puute. Tällaisten
-sovelluskehysten kehittyessä pystytäänkin kyseenalaistamaan koko konkreettisen ohjaimen merkitys MVC-arkkitehtuurissa.
-herää kuitenkin kysymys siitä ovatko kyseiset sovelluskehykset MVC-kehyksiä vai eivät? Tämän tutkimuksen tarkoituksena on vastata edellä esitettyyn
-kysymykseen Pyramid-sovelluskehyksen näkökulmasta.
+kyseiset sovelluskehykset eivät toteuta MVC:tä täysin, on konkreettisen \emph{ohjaimen(controller)} puute.
+Herää kysymys siitä ovatko kyseiset sovelluskehykset MVC-kehyksiä vai eivät? Tämän tutkimuksen tarkoituksena on vastata kysymykseen Pyramid-sovelluskehyksen näkökulmasta.
 
 \subsection{Aiheen rajaus}
 Tutkimuksessa käsiteltävä aihe on rajattu tarkastelemaan Pyramid-sovelluskehystä sekä MVC-arkkitehtuuria. Pyramid-sovelluskehystä
@@ -125,10 +124,14 @@ Monien MVC-arkkitehtuuria soveltavien artikkeleiden lähdeviitteistä löytyy vi
 toteamaan kyseisten artikkeleiden olevan tieteellisesti päteviä ja tarjoavan kattavan lähdemateriaalin MVC-arkkitehtuurin pohjaksi. 
 
 Lopulta Burbeckin ja Krasnerin kirjoittamien artikkeleiden taustalta löytyy MVC-Paradigman kehittäjä Trygve Reenskaug, jonka omia julkaisuja sekä kotisivujen MVC-osiota
-käytetään myös lähteenä tutkimuksessa \cite{Reenskaug}. 
+käytetään myös lähteenä tutkimuksessa \cite{Reenskaug}. Tämän jälkeen tutkitaan
 
-\subsection {Tutkimuksen rakenne}
-- Kerrotaan vaihe vaiheelta, miten tutkimuksessa edetään
+\section {Tutkimuksen rakenne}
+Tutkimus aloitetaan käymällä kirjallisuuskatsauksena läpi MVC-arkkitehtuurin käsite sekä sen toteutus ohjelmointitasolla. Kirjallisuutena käytetään
+pääasiassa Krasnerin ja Burbeckin julkaisua \cite{Krasner:desc, Burbeck}. Tämän jälkeen käydään läpi Pyramid sovelluskehyksen peruselementit sekä asetetaan
+kriteerit, joiden pohjalta MVC:tä tutkitaan Pyramidissa. Kriiteereillä tarkoitetaan ennalta määrättyjä ominaisuuksia, joita Pyramidin tulee toteuttaa MVC:ssä.  Tutkimuksessa toteutetaan yksinkertainen laskurisovellus käyttäen pohjana 
+Krasnerin julkaisussa toteutettua vastaavaa sovellusta \cite{Krasner:desc}. Lopuksi tehdään johtopääkset tutkimuksen tuloksista. 
+
 
 \section {MVC}
 MVC-arkkitehtuurin perusajatus on erottaa käyttöliittymä sovelluslogiikasta ja 
@@ -506,14 +509,38 @@ Templatessa yhdistetään HTML-merkkauskieli ja sovelluksen ohjelmakoodi. Täst�
 \begin{lstlisting}[language=Python]      
   <body>                                                                        
     <h1>${value}</h1>                                                           
-    <form action="./" method="post">                                            
+    <form action="./" method="get">                                            
       <button type="submit" name="plus" value="plus"> Increment </button>       
       <button type="submit" name="minus" value="minus"> Decrement </button>     
     </form>                                                                     
   </body>  
 \end{lstlisting} 
 Sovelluksen templatessa luodaan lomake kahdelle painikkeelle, joista kumpikin lähettää lomakkeen eteenpäin \emph{counter\_view} -funktiolle. Lomakkeen tiedot tulevat \emph{counter\_view} -funktiolle request-oliossa, joka sisältää tässä tapauksessa \emph{plus} tai \emph{minus} parametrin riippuen siitä kumpaa painiketta on painettu. Lomakkeen tiedot lähetetään samaan osoitteeseen, mistä sitä on alunperin kutsuttukin. Eron tuo kuitenkin request-oliossa tuodut parametrit.  Otsikossa tuodaan näkyviin laskurin sen hetkinen arvo, joka saadaan tietoon ohjaimelta.
- Templatessa hoidetaan sovelluksen graafinen puoli, joten se vastaa osaltaan näkymää. \\ Ongelmaksi muodostuu kuitenkin näkymän ja mallin välinen kommunikointi. Näkymä ei ole yhteydessä malliin suoraan, vaan tarvitsee ohjaimen kautta tiedon mallin tilasta.  Näkymä ei siis sellaisenaan toteuta sille asetettuja ominaisuuksia. 
+ Templatessa hoidetaan sovelluksen graafinen puoli, joten se vastaa osaltaan näkymää. \\ Ongelmaksi muodostuu kuitenkin näkymän ja mallin välinen kommunikointi. Näkymä ei ole yhteydessä malliin suoraan, vaan tarvitsee ohjaimen kautta tiedon mallin tilasta.  Näkymä ei siis sellaisenaan toteuta sille asetettuja ominaisuuksia. \\
+
+\subsection{Sovelluksen toiminta}
+Alla olevassa kuvassa esitellään visuaalisesti miten laskurisovellus muodostaa HTML-sivun, kun käyttäjä painaa sivulla \emph{Increment} -painiketta. Kuvan
+vaiheet toteutetaan numerojärjestyksessä alkaen ensimmäisestä.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.87]{laskurisovellus.png}
+\caption{Laskurisovelluksen toiminta}
+\end{figure}
+\newpage
+\lstset{
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1,
+xleftmargin=30pt,
+escapeinside={/*@}{@*/},
+}
+
+\begin{lstlisting}
+/*@Palvelimelta pyydetään HTTP-protokollan mukaisesti sivua "plus" -parametrilla.@*/
+/*@Palvelin pyytää sovellukselta sivua. Parametri tuodaan sovellukselle request-oliossa.@*/ 
+/*@Ohjain käskee mallia muuttamaan tilaansa ja pyytää samalla tiedon muutoksen jälkeisestä arvosta.@*/ 
+/*@Ohjain tuo näkymälle laskurin arvon.@*/ 
+/*@Näkymästä generoidaan HTML-sivu, joka tuodaan palvelimelle vastauksena.@*/ 
+\end{lstlisting}
 
 \subsection{Yhteenveto}
 Malli sekä ohjain toteutuvat Pyramidissa MVC:n mukaisesti. Malli (\emph{Counter}) on itsenäinen komponentti, jolla ei ole riippuvuutta näkymään tai ohjaimeen. Se myös huolehtii sovelluksen käsittelemästä datasta ja vastaa tarvittaviin pyyntöihin. Ohjain taas huolehtii request-oliossa tulevista syötteistä ja vaikuttaa malliin sekä näkymään.  Kumpikin edellä mainittu komponentti toteuttaa MVC:ssä sille tarkoitetun roolin. Näkymä toteuttaa sovelluksen graafisen näyttämisen selaimelle, mutta ei toteuta sille määrättyjä sääntöjä. MVC:ssä näkymän tarkoitus on kommunikoida suoraan mallin kanssa. Tämä ei kuitenkaan onnistu Pyramidissa, jossa näkymä on yhteydessä vain ohjaimeen. 
@@ -524,12 +551,11 @@ toteutetaan eri tavalla. Erityisesti näkymäksi erotettu template tuo ongelmia.
 
 Pyramidin MVC-komponenttejen kommunikointi voidaan esittää käyttäen pohjana muokaten Krasnerin kommunikaatiomallia \cite{Krasner:desc}. 
 Alla esitellyssä kuvassa havainnollisestetaan, kuinka mallin ja näkymän kommunikaatio puuttuu täysin ja kaikki data tuodaan ohjaimen kautta.
-
+\newpage
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{krasner_mvc.jpg}
 \includegraphics[scale=0.85]{pyramid_mvc.jpg}
-\caption{Pyramidin kommunikointi MVC-komponenttejen kesken. Kuva on muokattu Krasnerin esittelemästä kommunikointimallista, joka on esitetty ylemmässä kuvassa.  }
+\caption{Pyramidin kommunikointi MVC-komponenttejen kesken. Kuva on muokattu Krasnerin esittelemästä kommunikointimallista \cite{Krasner:desc}  }
 \end{figure}
 
 Yllä esitetyssä kommunikaatiomallissa ohjain saa vastaan request-olion, jossa tulee kaikki tarvittava tieto käyttäjästä. Tämän perusteella ohjain ohjaa mallia
@@ -549,26 +575,12 @@ päädytään johtopäätökseen
 
 Tulosten perusteella Pyramid ei käytä MVC-arkkitehtuuria
 
-
-------------------------------------------------------------------------------
-Lopuksi lyhyessä johtopäätösosassa kerrotaan tutkimuksen pihvi.
-
-
-\bibliographystyle{finplain} % tai joku muu, sovi ohjaajasi kanssa
-\bibliography{esim}
-
-\appendix
-\section{Ensimmäinen liite}
-\section{Toinen liite}
-
-
-\section{Lähteet}
-
 \begin{thebibliography}{9} % alle 10 lähdeteosta
 \bibitem{Deacon:1995}
     John Deacon Computer Systems Development, Consulting \& Training
     \emph{Model-View-Controller (MVC) Architecture},
     August 1995, revised August 2000, April 2005 and May 2009
+
 \bibitem{Burbeck}
    Burbeck, S.
   \emph{“How to use Model-View-Controller (MVC)”,}
@@ -579,10 +591,9 @@ Lopuksi lyhyessä johtopäätösosassa kerrotaan tutkimuksen pihvi.
   \emph{“A Cookbook for Using the Model-View-Controller User Interface Paradigm in Smalltalk-80”,}
 http://www.ics.uci.edu/~redmiles/ics227-SQ04/papers/KrasnerPope88.pdf
 
- \bibitem{Krasner:desc}
-   Glenn E. Krasner \& Stephen T. Pope
-  \emph{A Description of the Model-View-Controller User Interface Paradigm in the Smalltalk-80 System}
-   http://www.create.ucsb.edu/~stp/PostScript/mvc.pdf
+\bibitem{Krasner:desc} 1988 Glenn E. Krasner \& Stephen T. Pope, ParcPlace Systems Inc,
+	\emph{"A Description of the Model-View-Controller User Interface Paradigm in the Smalltalk-80 System"}
+	\url{http://www.create.ucsb.edu/~stp/PostScript/mvc.pdf}
 
  \bibitem{Reenskaug}
   XEROX PARC 1978-79
@@ -619,6 +630,11 @@ www.sqlalchemy.org
 \bibitem{urldispatch}
 \emph{Pyramid Documentation, URL Dispatch}
 http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/urldispatch.html
+
+\bibitem{mvcframeworks}
+bestwebframeworks 2009
+\emph{List of Python MVC-frameworks by bestwebframeworks.com}
+http://www.bestwebframeworks.com/compare-web-frameworks/python/
 
 \end{thebibliography}
 

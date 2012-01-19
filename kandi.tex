@@ -149,7 +149,7 @@ vastaan syötteitä käyttäjältä käskien mallia ja näkymää muuttumaan tar
 
 Jokaisella komponentilla on oma rajattu tehtävänsä ja ohjelmakoodi tulee jakaa näiden komponenttejen kesken. Jotta MVC:tä pystyttäisiin käyttämään 
 tehokkaasti, tulee ymmärtää komponenttejen työnjako sekä se kuinka komponentit kommunikoivat keskenään \cite{Burbeck}.  Luodessamme MVC-arkkitehtuurin
-toteuttavia komponentteja, tulee ne periä jostakin abstraktista pohjaluokasta(Model, View ja Controller), joka määrittelee kyseisen komponentin käyttäytymisen MVC-arkkitehtuurissa  \cite[s. 5]{Krasner:desc}.  Tässä kappaleessa käydään jokainen pohjaluokka erikseen läpi. 
+toteuttavia komponentteja, tulee ne periä jostakin abstraktista pohjaluokasta(Model, View ja Controller), joka määrittelee kyseisen komponentin käyttäytymisen MVC-arkkitehtuurissa  \cite[s. 5]{Krasner:desc}.  Tässä kappaleessa käydään jokaisen komponentin toteutus erikseen läpi käyttäen kielenä Smalltalkia. Lähteenä käytetään Krasnerin julkaisua \cite{Krasner:desc}.
 
 Yleisesti MVC-komponenttejen toimintaa kuvaavassa esimerkissä käyttäjältä tulee jokin syöte, jonka sillä hetkellä aktiivinen ohjain ottaa vastaan. Syötteen perusteella ohjain lähettää malille viestin. Malli puolestaan
 tekee sille määrättyjä operaatioita muuttaen tilaansa ja lähettää edelleen viestin muutoksestaan kaikille siihen kiinnitettyille riippuvuuksille (näkymät ja ohjaimet). Näkymät
@@ -190,24 +190,24 @@ Näkymä ei sisällä ainoastaan komponentteja datan näyttämiseen ruudulla vaa
 \subsection{Ohjain (Class Controller)}
 Ohjaimen tehtävänä on ottaa vastaan syötteitä sekä koordinoida malleja ja näkymiä saatujen syötteiden perusteella. Sen tulee myös kommunikoida muiden ohjaimien kanssa. Teknisesti ohjaimessa on kolme viitemuuttujaa: malli, näkymä ja sensori(sensor). Sensorin tehtävänä on toimia rajapintana syötelaitteiden sekä ohjaimen välillä. Sensori mallintaa syötelaitteiden käyttäytymistä ja muuttaa ne ohjaimen ymmärtämään muotoon. 
 
-Ohjaimien tulee käyttytyä siten, että vain yksi ohjain ottaa vastaan syötteitä kerrallaan. Esimerkiksi näkymät pystyvät esittämään informaatiota rinnakkain monen näkymän kautta, mutta käyttäjän toimintoja tulkitsee aina vain yksi ohjain. Ohjain on siis määritelty käyttytymään siten, että se osaa tietyn signaalin perusteella päättää tuleeko sen aktivoida itsensä vai ei. Teknisesti ohjaimen käyttäytymisen määrittelee seuraavat metodit, joiden avulla ohjaimet viestivät \cite{Krasner:desc}. : 
+Ohjaimien tulee käyttäytyä siten, että vain yksi ohjain ottaa vastaan syötteitä kerrallaan. Esimerkiksi näkymät pystyvät esittämään informaatiota rinnakkain monen näkymän kautta, mutta käyttäjän toimintoja tulkitsee aina vain yksi ohjain. Ohjain on siis määritelty käyttäytymään siten, että se osaa tietyn signaalin perusteella päättää tuleeko sen aktivoida itsensä vai ei. Teknisesti ohjaimen käyttäytymisen määrittelee seuraavat metodit, joiden avulla ohjaimet viestivät \cite{Krasner:desc}: 
 \begin{description}
 \item[isControlWanted] \ Tuleeko ohjaimen ottaa hallinta.  
 \item[isControlActive] \ Onko ohjain aktiivinen. 
-\item[controlToNextLevel] \ Luovutetaan hallinta seuraavalle. 
+\item[controlToNextLevel] \ Luovutetaan hallinta seuraavalle ohjaimelle.
 \item[viewHasCursor] \ Onko ohjaimen näkymässä hiiren kursori. 
 \item[controlInitialize] \ Kun ohjain on saanut hallinnan, alustetaan se. 
 \item[controlLoop] \ Lähettää \emph{controlActivity} -viesteja niin kauan, kuin ohjaimella on hallinta. 
 \item[controlTerminate] \ Lopettaa ohjaimen hallinnan.
 \end{description}
 
-Kun ohjain saa hallinnan itselleen, kutsuu se \emph{startUp} -metodia. Metodi kutsuu seuraavia metodeja: \emph{controlInitialize}, \emph{controlLoop} ja \emph{controlTerminate}. Metodit
-voidaan ylikirjoittaa, jotta saadaa määriteltyä jokin tietty toiminnallisuus ohjaimelle. Esimerkiksi \emph{controlInitialize} ja \emph{controlTerminate} määräävät mitä tehdään, kun ohjain saa hallinnan tai luovuttaa sen eteenpäin. Ohjaimen hallitessa kutsutaan
-\emph{controlLoop} -metodia, joka taas kutsuu \emph{controlActivity} -metodia niin kauan kuin ohjaimella on hallinta.  Metodi \emph{controlActivity} määrää ohjaimen toiminnan hallinnan aikana, joten se ylikirjoitetaan tätä varten. \cite{Krasner:desc}. 
+Kun ohjain saa hallinnan itselleen, kutsuu se \emph{startUp} -metodia, jokapuolestaan kutsuu seuraavia metodeja: \emph{controlInitialize}, \emph{controlLoop} ja \emph{controlTerminate}. Metodit
+voidaan ylikirjoittaa, jolloin saavutetaan jokin haluttu ominaisuus kyseisessä vaiheessa. Esimerkiksi \emph{controlInitialize} ja \emph{controlTerminate} määräävät mitä tehdään, kun ohjain saa hallinnan tai luovuttaa sen eteenpäin. Ohjaimen hallinnan aikana kutsutaan
+\emph{controlLoop} -metodia, joka taas kutsuu \emph{controlActivity} -metodia niin kauan kuin ohjaimella on hallinta.  Metodi \emph{controlActivity} määrää ohjaimen toiminnan hallinnan aikana \cite{Krasner:desc}. 
 
 
 \subsection{Esimerkkiohjelma}
-Seuraavaksi esitellään  Dortmundin yliopistossa kirjoitettu yksinkertainen esimerkkiohjelma Smalltalk-80:lla, siitä miten MVC:tä voidaan käyttää
+Seuraavaksi esitellään  Dortmundin yliopistossa kirjoitettu yksinkertainen esimerkkiohjelma Smalltalkilla, siitä miten MVC:tä voidaan käyttää
 käytännössä. Ohjelmakoodi löytyy myös Krasnerin artikkelista \cite{Krasner:desc}. Ohjelmassa toteutetaan yksinkertainen laskuri-ohjelma, joka käyttää MVC-arkkitehtuuria toteutuksessaan. Ohjelmassa esitellään malli, joka on luokan \emph{Counter} instanssi ja näkymä mikä on luokan \emph{CounterView} instanssi. \emph{Counter} perii mallin ominaisuudet ja 
 toimii ohjelmassa yksinkertaisen numero-muuttujan ylläpitäjänä. \emph{CounterView} perii näkymän ominaisuudet ja näyttää mallin (\emph{Counter}) arvon.
 Ohjaimena toimiiluokan \emph{CounterController} instanssi, joka perii ohjaimen käyttytymisen. Ohjain tarjoaa sovelluksessa "laatikon", josta voi vähentää

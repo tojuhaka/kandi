@@ -7,9 +7,9 @@
 \BOOKMARK [1][]{section.4}{4 Tutkimuksen rakenne}{}% 7
 \BOOKMARK [1][]{section.5}{5 MVC}{}% 8
 \BOOKMARK [2][]{subsection.5.1}{5.1 Historia}{section.5}% 9
-\BOOKMARK [2][]{subsection.5.2}{5.2 Malli \(Class Model\)}{section.5}% 10
-\BOOKMARK [2][]{subsection.5.3}{5.3 N\344kym\344 \(Class View\)}{section.5}% 11
-\BOOKMARK [2][]{subsection.5.4}{5.4 Ohjain \(Class Controller\)}{section.5}% 12
+\BOOKMARK [2][]{subsection.5.2}{5.2 Malli \(Model\)}{section.5}% 10
+\BOOKMARK [2][]{subsection.5.3}{5.3 N\344kym\344 \(View\)}{section.5}% 11
+\BOOKMARK [2][]{subsection.5.4}{5.4 Ohjain \(Controller\)}{section.5}% 12
 \BOOKMARK [2][]{subsection.5.5}{5.5 Esimerkkiohjelma}{section.5}% 13
 \BOOKMARK [1][]{section.6}{6 Pyramid}{}% 14
 \BOOKMARK [2][]{subsection.6.1}{6.1 Tausta}{section.6}% 15

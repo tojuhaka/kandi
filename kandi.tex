@@ -19,7 +19,7 @@
 \setauthor{Toni Juhani}{Haka-Risku}
 \yhteystiedot{tojuhaka@gmail.com}
 \translatedtitle{Pyramid-framework and MVC-architecture}
-\abstract{English abstract}
+\abstract{How does the Pyramid-framework use the MVC-architecture?}
 \tiivistelma{Millä tavalla MVC-arkkitehtuuri toteutuu Pyramid web-sovelluskehyksessä?}
 \keywords{Pyramid, MVC, Sovelluskehys, Python}
 \avainsanat{Pyramid, MVC, Framework, Python}
@@ -54,19 +54,20 @@ kokemusta on kertynyt Plone-sisällönhallintajärjestelmästä, josta myös Zop
 Grok-sovelluskehykset ovat tulleet tutuiksi. Kokemuksen kautta on myös herännyt mielenkiinto
 muita tarjolla olevia vaihtoehtoja kohtaan, joista tällä hetkellä uusin on Pyramid. Koska suurin osa Python-pohjaisista
 web-sovelluskehyksistä käyttää MVC-arkkitehtuuria, on mielenkiinto herännyt myös itse MVC-arkkitehtuuriin. Tämä johti
-kandidaatintutkielman aiheeseen, jossa tarkastellaan MVC-arkkitehtuurin suhdetta Pyramid web-sovelluskehykseen.
+kandidaatintutkielman aiheeseen, jossa tarkastellaan MVC-arkkitehtuurin suhdetta Pyramid web"-sovelluskehykseen.
+
+\section{Sanasto}
+\begin{description}
+    \item[Sovelluskehys] tarjoaa sovelluksen kehitykseen mukaan tason, joka tarjoaa erilaisia kirjastoja yleisimpien ohjelmointiongelmian ratkaisemiseksi. Sovelluskehys on eräänlainen työympäristö, joka helpottaa sovelluksen toteuttamista.
+    \item[ZCA] \emph{Zope Component Architecture} on Python-sovelluskehys, joka tarjoaa välineitä komponentti-pohjaisen sovelluksen toteutukseen \cite{ZCA}. 
+    \item[Grok] PostScript.
+    \item[Grok] PostScript.   
+    \item[Metodi] PostScript.
+    \item[URL] PostScript.
+    \item[HTML] PostScript.
+\end{description}
 
 \mainmatter
-\section{Sanasto}
-Sovelluskehys
-ZCA
-Grok
-Metodi
-URL
-HTML
-
-
-
 \section{Johdanto}
 Toteutuuko MVC-arkkitehtuuri Pyramid-sovelluskehyksessä?
 
@@ -74,7 +75,7 @@ Toteutuuko MVC-arkkitehtuuri Pyramid-sovelluskehyksessä?
 Rakentaessamme interaktiivisia sovelluksia, modulaarisilla komponenteilla on paljon etuja. Suunnittelemalla komponentit mahdollisimman erillään toisistaan helpotetaan
 sovelluksen ohjalmakoodin hallintaa. Samalla pystytään muuttamaan ohjelmakoodia ilman, että tarvitsee tuntea koko sovelluksen toteutusta \cite[s.2]{Krasner:desc}
 MVC-arkkitehtuuri on ohjelmistokehityksessä käytetty rakenne, joka määrää ohjelmakoodin jaottelun kolmeen osaan: Malli(model), Näkymä(view) ja Ohjain(controller). MVC on käytössä monissa sovelluksissa ja erityisesti se on saanut
-huomiota web-sovelluskehyksien toteutuksissa. Sovelluskehyksen tehtävänä on tuoda sovelluksen kehitykseen mukaan
+huomiota web"-sovelluskehyksien toteutuksissa. Sovelluskehyksen tehtävänä on tuoda sovelluksen kehitykseen mukaan
 taso, joka tarjoaa erilaisia kirjastoja ratkaisemaan yleisimpiä ongelmia. Monet Python sovelluskehykset kuitenkin luokitellaan MVC-sovelluskehyksiksi \cite{mvcframeworks}, mutta eivät
 todellisuudessa toteuta täysin MVC-arkkitehtuuria sellaisena kuin se alunperin olisi tarkoitettu. Näistä yleisimpiä sovelluskehyksiä ovat Python-pohjaiset
 ja erityisesti ZCA:n (Zope Component Architecture) omaavat kehykset, kuten esimerkiksi Pyramid ja Grok. Syy sille, miksi
@@ -169,7 +170,7 @@ kirjoitettiin vuonna 1978 samassa tutkimuskeskuksessa. Tuolloin julkaisussa esit
 komponenttia: malli(model), näkymä(View), ohjain(Controller) sekä muokkaaja(Editor). Muokkaaja on väliaikainen komponentti, jonka näkymä
 luo itsensä ja syötelaitteiden välille. Muokkaaja-komponentista kuitenkin luovuttiin käsitteenä ja se sisällytettiin näkymään ja ohjaimeen. \cite{Reenskaug}.
 Alkuperäinen Xerox PARC:n tuottama raportti MVC:stä oli Reenskaugin vuonna 1979 kirjoittama \emph{THING-MODEL-VIEW-EDITOR} \cite{Reenskaug:1979}. Raportti
-esitteli MVC-arkkitehtuurin komponentteja käyttäen hyväksi esimerkkejä Kreenskaugin omasta suunnittelutyöstä. Reenskaug päätyi kuitenkin termeihin Model-View-Controller ja julkaisi saman
+esitteli MVC-arkkitehtuurin komponentteja käyttäen hyväksi esimerkkejä Reenskaugin omasta suunnittelutyöstä. Reenskaug päätyi kuitenkin termeihin Model-View-Controller ja julkaisi saman
 vuoden lopulla raportin, jossa määritellään lyhyesti jokaisen komponentin tehtävä (\emph{MODELS-VIEWS-CONTROLLERS}) \cite{Reenskaug:2007}.
 
 Koska MVC:n historia ja suurin osa MVC:n
@@ -433,7 +434,6 @@ tarkoitetaan tässä kontekstissa tarkkoja ohjelmointiteknisiä ratkaisuja, jotk
 Pyramidissa. Esimerkiksi pyyntö tulee suorittaa aina, jos palvelimelta halutaan tuoda dataa selaimelle \cite{Web}. Tämän perusteella malli ei voi viestittää muutoksestaan näkymälle ja ohjaimelle ilman niiden kautta tulevaa pyyntöä toisinkuin esimerkiksi Krasnerin määritelmässä \cite{Krasner}. Ohjelmointityökalujen määrän sekä vauhdikkaan kehityksen myötä tämä voidaan kuitenkin mahdollisesti kiertää tulevaisuudessa. Tästä syystä MVC-toteutusta ei ole tutkielman kannalta järkevää tutkia liian teknisestä näkökulmasta, vaan toteutusta tulee tarkastella korkeammalla tasolla. Tässä osiossa oletetaan MVC:n olevan abstrakti malli ohjelmakoodin jakamiselle helposti hallittaviin osiin. Se kuinka tämä teknisesti toteutetaan ei ole tutkielman kannalta oleellista.
 Koska MVC:n toteutusta Pyramidissa tarkastellaan abstraktilla tasolla, määritetään selkeät ominaisuudet, jotka MVC-komponenttien tulee toteuttaa. Jokaisen komponentin on toteutettava sille määrätyt ominaisuudet, jotta voidaan todeta sen kuuluvan osaksi MVC-arkkitehtuuria. Ominaisuudet määritellään käyttäen pohjana Burbeckin ja Krasnerin julkaisuja \cite{Burbeck, Krasner:desc}.
 
-TODO TODO TODO
 Tärkeimpänä vaatimuksena on se, että näkymä ja ohjain luovat rajapinnan, jonka kautta käyttäjä keskustelee mallin kanssa. Malli ei saa olla suorassa yhteydessä käyttäjään \cite[s. 10]{Reenskaug:tools}.
 Mallin tulee olla riippumaton näkymästä ja ohjaimesta. Sen tulee myös hallita sovelluksen tilaa sekä pystyä antamaan informaatiota sovelluksen tilasta \cite{Burbeck}. Näkymän on keskusteltava mallin kanssa sekä hoitaa mallilta saadun datan graafinen näyttäminen \cite[s.1]{Reenskaug:orig}. Ohjain puolestaan ottaa vastaan syötteitä ja lähettää viestejä tämän perusteella näkymälle ja mallille \cite{Burbeck}. Näiden rajoituksien perusteella pystytään vastaamaan tutkimuksessa siihen, toteuttaako Pyramid MVC-arkkitehtuurin vai ei.
 
@@ -671,6 +671,12 @@ http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/scaffolding.html
 W3Schools.com, 1999-2012 Refsnes Data
 \emph{Introduction to SQL}
 \url{http://www.w3schools.com/sql/sql_intro.asp}
+
+\bibitem{ZCA}
+2007-2009 Baiju M
+\emph{A Comprehensive Guide to Zope Component Architecture}
+\url{http://www.muthukadan.net/docs/zca.pdf}
+
 
 \end{thebibliography}
 \end{document}

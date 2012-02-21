@@ -197,15 +197,14 @@ Ohjaimen tehtävänä on ottaa vastaan syötteitä sekä koordinoida malleja ja 
 
 Ohjaimien tulee käyttäytyä siten, että vain yksi ohjain ottaa vastaan syötteitä kerrallaan. Esimerkiksi näkymät pystyvät esittämään informaatiota rinnakkain monen näkymän kautta, mutta käyttäjän toimintoja tulkitsee aina vain yksi ohjain. Ohjain on siis määritelty käyttäytymään siten, että se osaa tietyn signaalin perusteella päättää tuleeko sen aktivoida itsensä vai ei. Teknisesti ohjaimen käyttäytymisen määrittelee seuraavat metodit, joiden avulla ohjaimet viestivät\cite[s. 9]{Krasner:desc}:
 \begin{description}
-\item[isControlWanted] \ Tuleeko ohjaimen ottaa hallinta.
-\item[isControlActive] \ Onko ohjain aktiivinen.
-\item[controlToNextLevel] \ Luovutetaan hallinta seuraavalle ohjaimelle.
-\item[viewHasCursor] \ Onko ohjaimen näkymässä hiiren kursori.
-\item[controlInitialize] \ Kun ohjain on saanut hallinnan, alustetaan se.
-\item[controlLoop] \ Lähettää \emph{controlActivity} -viesteja niin kauan, kuin ohjaimella on hallinta.
-\item[controlTerminate] \ Lopettaa ohjaimen hallinnan.
-\end{description}
-
+\item[isControlWanted] -\ Tuleeko ohjaimen ottaa hallinta.
+\item[isControlActive] -\ Onko ohjain aktiivinen.
+\item[controlToNextLevel] -\ Luovutetaan hallinta seuraavalle ohjaimelle.
+\item[viewHasCursor] -\ Onko ohjaimen näkymässä hiiren kursori.
+\item[controlInitialize] -\ Kun ohjain on saanut hallinnan, alustetaan se.
+\item[controlLoop] -\ Lähettää \emph{controlActivity} -viesteja niin kauan, kuin ohjaimella on hallinta.
+\item[controlTerminate] -\ Lopettaa ohjaimen hallinnan.
+\end{description} 
 Kun ohjain saa hallinnan itselleen, kutsuu se \emph{startUp} -metodia, joka puolestaan kutsuu seuraavia metodeja: \emph{controlInitialize}, \emph{controlLoop} ja \emph{controlTerminate}. Metodit
 voidaan ylikirjoittaa, jolloin saavutetaan jokin haluttu ominaisuus kyseisessä vaiheessa. Esimerkiksi \emph{controlInitialize} ja \emph{controlTerminate} määräävät mitä tehdään, kun ohjain saa hallinnan tai luovuttaa sen eteenpäin. Ohjaimen hallinnan aikana kutsutaan
 \emph{controlLoop} -metodia, joka taas kutsuu \emph{controlActivity} -metodia niin kauan kuin ohjaimella on hallinta.  Metodi \emph{controlActivity} määrää ohjaimen toiminnan hallinnan aikana\cite[s. 9]{Krasner:desc}.
@@ -214,7 +213,7 @@ voidaan ylikirjoittaa, jolloin saavutetaan jokin haluttu ominaisuus kyseisessä 
 Seuraavaksi esitellään  Dortmundin yliopistossa kirjoitettu yksinkertainen esimerkkiohjelma Smalltalkilla siitä miten MVC:n toteutus tuodaan sovellukseen käytännössä. Ohjelmakoodi löytyy myös Krasnerin artikkelista\cite[s. 20]{Krasner:desc}. Ohjelmassa toteutetaan yksinkertainen laskuri-ohjelma, joka käyttää MVC-arkkitehtuuria toteutuksessaan. Ohjelmassa esitellään mallina \emph{Counter} -luokka ja näkymänä \emph{CounterView} -luokka. \emph{Counter} perii mallin ominaisuudet ja
 toimii ohjelmassa yksinkertaisen numero-muuttujan ylläpitäjänä. \emph{CounterView} perii näkymän ominaisuudet ja esittää mallin arvon ruudulla.
 Ohjaimena toimii \emph{CounterController} -luokka, joka perii ohjaimen käyttäytymisen. Ohjain tarjoaa sovellukselle painikkeet, joista voidaan vähentää
-tai lisätä laskurin arvoa. Samanlainen laskuri toteutetaan myös tutkielman Pyramid-osuudessa, mutta korkeammalla tasolla käyttäen Pyramidin tarjoamia ominaisuuksia.\\
+tai lisätä laskurin arvoa. Vastaava laskurisovellus toteutetaan Pyramidilla tässä tutkielmassa.
 
 Määritellään ensiksi \emph{Counter} -luokka, joka peritään \emph{Model} -luokasta.
 \begin{lstlisting}[language=Smalltalk]
@@ -224,10 +223,8 @@ Model subclass: #Counter
 	poolDictionaries: ''
   	category: 'Demo-Counter'
 \end{lstlisting}
-
 Seuraavaksi määritellään \emph{Counter}-luokalle metodeita, jotka määrävät
 laskuriarvon alustamisen sekä muokkaamisen.
-
 \begin{lstlisting}[language=Smalltalk]
 Counter methods For: 'Initialize-release'
 Initialize
@@ -249,22 +246,18 @@ Increment
 	"Lisää mallin arvoa yhdellä."
 	self value: value + 1
 \end{lstlisting}
-
 Lisätään luokkaan metodi, jolla itse luokasta saadaan muodostettua instanssi.
-
 \begin{lstlisting}[language=Smalltalk]
 Counter class methodsFor: 'instance creation'
 new
 	"Palauta uusi instanssi luokasta"
 	^super new initialize
 \end{lstlisting}
-
 Seuraavaksi määritellään ohjain (\emph{CounterController}), joka peritään
 \emph{Controller} luokasta. Luodaan myös ohjaimelle metodit, joiden avulla
 ohjataan mallia sekä näkymää. Metodeissa toteutetaan valikko, joka tarjoaa
 mahdollisuuden joko vähentää tai lisätä laskurin arvoa. Kaikki \emph{CounterController} -luokassa käytetyt
 määrittelemättömät muuttujat peritään yliluokasta.
-
 \begin{lstlisting}[language=Smalltalk]
 Mouse MenuController subclass: #CounterControIler
 	instanceVariableNames: ' '
@@ -291,10 +284,8 @@ isControlActlve
 	"Ota hallinta kun sinistä nappia ei paineta"
 	^super isControlActive & sensor blueButtonPressed not
 \end{lstlisting}
-
 Määrätään näkymä (\emph{CounterView}), joka peritään \emph{View} -yliluokasta. Määrätään
 myös näkymälle metodit, joiden avulla näytetään mallin tila ruudulla.
-
 \begin{lstlisting}[language=Smalltalk]
 View subclass: #Counterview
 	instanceVariableNames: ''
@@ -314,7 +305,6 @@ displayView
 					asDisplayText.
 	displayText displayAt: pos
 \end{lstlisting}
-
 Määritellään \emph{update} -metodi, jotta näkymä pystyy päivittämään itsensä. Metodia kutsutaan
 yleensä mallin tilan muuttuessa.
 \begin{lstlisting}[language=Smalltalk]
@@ -330,7 +320,6 @@ defaultControllerClass
 	"Palauta näkymään rekisteröity ohjain"
 	^CounterController
 \end{lstlisting}
-
 Lopuksi tarvitaan metodi, joka luo uuden näkymän sekä rekisteröi mallin ja ohjaimen itseensä. Näkymä näyttää ruudulta
 samalta kuin kuvassa 2.
 \begin{lstlisting}[language=Smalltalk]
@@ -384,16 +373,15 @@ mitään erityistä tekniikkaa, vaan pyrkii olemaan mahdollisimman yksinkertaine
 liittämistä Pyramidiin. Yksinkertaisuuden ja mimimaalisuuden ansiosta se on myös nopeampi kuin monet muut Python-pohjaiset web-sovelluskehykset. Tämä johtuu Pyramidin poikkeuksellisen
 pienestä kutsupinosta ajamisen aikana\cite{Pyramid:intr}. 
 
-Koska Pyramid pyrkii tarjoamaan vain välttämättömimmät työkalut web-kehitykseen, Pyramidin kehittäjät
+Koska Pyramid pyrkii tarjoamaan vain välttämättömimmät työkalut web-sovelluksien kehitykseen, sen kehittäjät
 ovat päätyneet web-kehityksessä neljään yleisimpään ongelmaan ja tarjoavat niihin ratkaisun Pyramidissa:
 
 \begin{description}
-\item [URL Mapping] \ URL:ien liittäminen ohjelmakoodiin.
-\item[Template] \ Tuodaan sovelluksen näkymä selaimelle käyttäen HTML-kuvauskieltä, jolla määrätään näkymän rakenne. Tämän avulla pystytään erottamaan käyttöliittymä sovelluslogiikasta tehokkaasti.
-\item[Security] \ Perinteiset tietoturvaongelmat tulee olla ratkaistuna valmiiksi jo sovelluskehyksessä. Tämä ei kuitenkaan tarkoita sitä, että kehittäjä voisi täysin unohtaa tietoturvan merkityksen.
-\item[Static Assets] \ Staattisien resurssejen jakaminen niille tarkoitettuihin paikkoihin tiedostorakenteessa.
+\item [URL Mapping] -\ URL:ien liittäminen ohjelmakoodiin.
+\item[Template] -\ Tuodaan sovelluksen näkymä selaimelle käyttäen HTML-kuvauskieltä, jolla määrätään näkymän rakenne. Tämän avulla pystytään erottamaan käyttöliittymä sovelluslogiikasta tehokkaasti.
+\item[Security] -\ Perinteiset tietoturvaongelmat tulee olla ratkaistuna valmiiksi jo sovelluskehyksessä. Tämä ei kuitenkaan tarkoita sitä, että kehittäjä voisi täysin unohtaa tietoturvan merkityksen.
+\item[Static Assets] -\ Staattisien resurssejen jakaminen niille tarkoitettuihin paikkoihin tiedostorakenteessa.
 \end{description}
-
 Yllä määriteltyjen neljän pääongelman lisäksi Pyramid tarjoaa lisäosien kautta monia erilaisia työkaluja, joiden avulla pystytään laajentamaan sen ominaisuuksia\cite{Pyramid:intr}. Tutkielman aiheen rajauksen vuoksi ei kuitenkaan
 käydä läpi yksityiskohtaisemmin Pyramidin toteutusta ja siihen liitettävissä olevia lisäosia, vaan keskitytään tarkastelemaan MVC:n toteutusta Pyramidissa.
 
